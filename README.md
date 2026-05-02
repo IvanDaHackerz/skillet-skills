@@ -1,62 +1,43 @@
-# Skillet 🍳
+# Skillet Skills 🍳
 
-> Turn tribal knowledge into automated excellence
+> Reusable development skills library for the Skillet system
 
-**Skillet** is a reusable development skills management system powered by IBM Bob IDE. Teams create structured "skills" (markdown files) that codify best practices. Bob reads these skills and executes them consistently across any project.
-
----
-
-## 🎯 What Problem Does Skillet Solve?
-
-Development teams face these challenges:
-- ⏰ **Time wasted** on repetitive coding tasks
-- 🔄 **Inconsistent implementations** across projects
-- 📚 **Knowledge silos** - tribal knowledge not documented
-- 🆕 **Slow onboarding** - new developers don't know "how we do things here"
-- 🐛 **Quality issues** - best practices not consistently applied
-
-**Skillet solves this** by letting teams codify their best practices into reusable skills that Bob can execute automatically.
+This repository contains **reusable development skills** that developers can create, share, and execute using IBM Bob IDE. Skills are validated against immutable company policies stored in the companion [skillet-policies](https://github.com/IvanDaHackerz/skillet-policies) repository.
 
 ---
 
-## 💡 How It Works
+## 🎯 What is Skillet?
 
-### 1️⃣ Create a Skill
-Developers use Bob to create structured skills:
+**Skillet** is a skills management system that helps development teams:
+- ⏰ **Save time** on repetitive coding tasks
+- 🔄 **Ensure consistency** across projects
+- 📚 **Codify best practices** into reusable skills
+- 🆕 **Onboard faster** with documented workflows
+- 🐛 **Maintain quality** through automated validation
 
-```
-Developer: "Hey Bob, create a skill for generating REST API endpoints 
-with authentication and validation."
+---
 
-Bob: [Reads create-skill meta-skill]
-     [Generates structured markdown]
-     [Automatically validates it]
-     [Shows validation report]
-     
-Bob: "Skill created and validated! Ready to save?"
-```
+## 🏗️ Two-Repository Architecture
 
-### 2️⃣ Automatic Validation
-Every skill is validated with **4 quality checks**:
-- ✅ **Guideline Compliance** (0-100 score) - Follows coding standards
-- ✅ **Duplicate Detection** (similarity %) - Prevents redundancy
-- ✅ **Security Review** (pass/fail) - Catches vulnerabilities
-- ✅ **Completeness Check** (pass/fail) - Ensures quality
+Skillet uses a **two-repo system** for security and governance:
 
-### 3️⃣ Execute Skills
-Developers use skills directly in their projects:
+### 1. [skillet-policies](https://github.com/IvanDaHackerz/skillet-policies) - READ-ONLY
+- **Purpose**: Immutable company policies and standards
+- **Access**: Everyone reads, only leadership writes
+- **Contents**: Coding standards, security guidelines, skill format, Bob configuration
+- **Protection**: Strictest branch protection (2+ approvals required)
 
-```
-Developer: "Hey Bob, use the backend-rest-api-endpoint-generator skill 
-to create a POST endpoint for orders."
+### 2. skillet-skills (This Repo) - READ-WRITE
+- **Purpose**: Reusable development skills library
+- **Access**: Developers can create/modify skills
+- **Contents**: All skills (backend, frontend, devops, qa, shared)
+- **Protection**: Category-based CODEOWNERS review (1 approval required)
 
-Bob: [Reads the skill from skills/ folder]
-     [Analyzes your project structure]
-     [Generates code matching your patterns]
-     [Shows diff for approval]
-     
-Bob: "Generated 3 files. Apply changes?"
-```
+**Why Two Repos?**
+- Developers cannot bypass company policies locally
+- Validation logic is immutable
+- Clear separation between policies (governance) and skills (implementation)
+- Only leadership can change standards
 
 ---
 
@@ -64,7 +45,7 @@ Bob: "Generated 3 files. Apply changes?"
 
 ```
 skillet-skills/
-├── skills/                          # All reusable skills (single folder)
+├── skills/                          # All reusable skills
 │   ├── backend-rest-api-endpoint-generator.md
 │   ├── backend-database-migration-creator.md
 │   ├── frontend-react-component-scaffold.md
@@ -72,26 +53,17 @@ skillet-skills/
 │   ├── devops-docker-compose-setup.md
 │   └── shared-unit-test-suite-generator.md
 │
-├── rules/                           # Company standards
-│   ├── coding-standards.md          # Code conventions
-│   ├── security-guidelines.md       # Security best practices
-│   └── skill-format.md              # Required skill structure
-│
-├── .bob/                            # Bob IDE configuration
-│   ├── modes/
-│   │   └── skillet.md               # Custom Skillet mode
-│   └── skills/
-│       ├── create-skill.md          # Meta-skill: Create skills
-│       └── validate-skill.md        # Meta-skill: Validate skills
-│
 ├── metadata/
-│   ├── roles.json                   # Role definitions
-│   └── skill-index.json             # Skill metadata
+│   └── skill-index.json             # Skill metadata (auto-updated)
 │
-└── bob_sessions/                    # Bob task reports (for judging)
+├── bob_sessions/                    # Bob task reports (for judging)
+│   └── .gitkeep
+│
+├── CODEOWNERS                       # Category-based review requirements
+└── README.md                        # This file
 ```
 
-**Key Design Decision**: Single `skills/` folder with category prefixes (e.g., `backend-*.md`) to avoid naming conflicts and simplify file management.
+**Note**: Policies, rules, and Bob configuration are in the [skillet-policies](https://github.com/IvanDaHackerz/skillet-policies) repo.
 
 ---
 
@@ -105,18 +77,18 @@ skillet-skills/
 
 ### Setup
 
-1. **Clone this repository**:
+1. **Clone BOTH repositories** (required for Skillet to work):
 ```bash
+cd "d:/ibm dev day"
+git clone https://github.com/IvanDaHackerz/skillet-policies.git
 git clone https://github.com/IvanDaHackerz/skillet-skills.git
-cd skillet-skills
 ```
 
-2. **Open in VS Code with Bob IDE**:
-```bash
-code .
-```
+2. **Open your project in VS Code with Bob IDE**
 
-3. **Bob automatically detects the Skillet mode** from `.bob/modes/skillet.md`
+3. **Bob automatically detects both repos**:
+   - Reads policies from `../skillet-policies/` (immutable)
+   - Creates skills in `../skillet-skills/` (mutable)
 
 4. **Start using Skillet**:
 ```
@@ -151,20 +123,6 @@ Skills will be added as the project progresses. Each skill follows the naming co
 
 ---
 
-## 🎨 Using the Dashboard (Optional)
-
-A React dashboard is available to browse and view skills:
-
-```bash
-cd dashboard
-npm install
-npm run dev
-```
-
-Open http://localhost:5173 to browse skills visually.
-
----
-
 ## 🤝 Contributing
 
 ### Creating a New Skill
@@ -175,6 +133,7 @@ Hey Bob, create a new skill for [your use case]
 ```
 
 2. **Bob will**:
+   - Read immutable policies from `../skillet-policies/rules/`
    - Generate structured markdown
    - Validate against company standards (4 checks)
    - Check for duplicates
@@ -187,6 +146,7 @@ Hey Bob, create a new skill for [your use case]
 
 5. **Commit and push**:
 ```bash
+cd skillet-skills
 git add skills/{category}-{skill-name}.md
 git commit -m "feat: add {category}-{skill-name} skill"
 git push origin main
@@ -195,18 +155,19 @@ git push origin main
 ### Skill Quality Standards
 
 All skills must:
-- ✅ Follow the format in `rules/skill-format.md`
-- ✅ Pass all 4 validation checks
+- ✅ Pass 4 validation checks (guideline compliance, duplicate detection, security, completeness)
+- ✅ Follow format from `skillet-policies/rules/skill-format.md`
+- ✅ Follow coding standards from `skillet-policies/rules/coding-standards.md`
+- ✅ Follow security guidelines from `skillet-policies/rules/security-guidelines.md`
 - ✅ Include clear, actionable steps
 - ✅ Provide concrete examples
-- ✅ Follow security guidelines
 - ✅ Use category prefix in filename
 
 ---
 
-## 🏆 Validation System
+## 🔐 Validation System
 
-Skillet's validation system ensures quality through 4 automated checks:
+Every skill is automatically validated with **4 checks**:
 
 ### 1. Guideline Compliance (0-100)
 - Follows coding standards
@@ -238,21 +199,30 @@ Skillet's validation system ensures quality through 4 automated checks:
 - ⚠️ **NEEDS REVIEW**: Minor issues found
 - ❌ **REJECTED**: Critical issues must be fixed
 
+**Note**: Validation logic is in the immutable `skillet-policies` repo and cannot be bypassed.
+
 ---
 
-## 🔧 Configuration
+## 🎨 Using Skills
 
-### Bob IDE Custom Mode
-The Skillet mode is defined in `.bob/modes/skillet.md`. Bob automatically loads this when you open the repository.
+### List Available Skills
+```
+Hey Bob, list all skills
+Hey Bob, show me backend skills
+Hey Bob, what skills are available for frontend developers?
+```
 
-### Rules Files
-- `rules/coding-standards.md` - JavaScript/Node.js conventions, error handling, testing
-- `rules/security-guidelines.md` - Authentication, input validation, SQL injection prevention
-- `rules/skill-format.md` - Required skill structure and template
+### Execute a Skill
+```
+Hey Bob, use the backend-rest-api-endpoint-generator skill to create a POST endpoint for orders
+```
 
-### Metadata
-- `metadata/roles.json` - Role definitions (backend, frontend, fullstack, devops, qa)
-- `metadata/skill-index.json` - Skill metadata (auto-updated)
+Bob will:
+1. Read the skill from `skills/backend-rest-api-endpoint-generator.md`
+2. Analyze your project structure
+3. Generate code matching your patterns
+4. Follow standards from `skillet-policies/rules/coding-standards.md`
+5. Show diff for approval
 
 ---
 
@@ -260,8 +230,8 @@ The Skillet mode is defined in `.bob/modes/skillet.md`. Bob automatically loads 
 
 - **Total Skills**: 0 (will be updated as skills are added)
 - **Categories**: 5 (backend, frontend, devops, qa, shared)
-- **Roles**: 5 (backend, frontend, fullstack, devops, qa)
-- **Meta-Skills**: 2 (create-skill, validate-skill)
+- **Validation Checks**: 4 (guideline, duplicate, security, completeness)
+- **Companion Repo**: [skillet-policies](https://github.com/IvanDaHackerz/skillet-policies)
 
 ---
 
@@ -277,7 +247,7 @@ This project was created for the IBM Bob Dev Day Hackathon 2026.
 - React + Vite (Dashboard)
 - Node.js + Express (Backend API)
 
-**Key Innovation**: Automated quality assurance through 4-check validation system ensures every skill meets company standards before being added to the library.
+**Key Innovation**: Two-repository architecture ensures immutable company policies that developers cannot bypass, while still allowing flexible skill creation.
 
 ---
 
@@ -287,6 +257,7 @@ This project was created for the IBM Bob Dev Day Hackathon 2026.
 - ✅ **4-Check Validation** - Ensures quality, security, and completeness
 - ✅ **Duplicate Detection** - Prevents redundant skills
 - ✅ **Security-First** - Catches vulnerabilities before they reach production
+- ✅ **Immutable Policies** - Developers cannot bypass company standards
 - ✅ **Consistent Execution** - Skills generate code matching your project patterns
 - ✅ **Role-Based Filtering** - Developers see only relevant skills
 - ✅ **Version Controlled** - All skills tracked in Git
@@ -299,10 +270,12 @@ This project was created for the IBM Bob Dev Day Hackathon 2026.
 ```
 # 1. Developer creates a skill
 Developer: "Hey Bob, create a skill for generating Docker Compose files"
-Bob: [Creates skill, validates it, shows report]
+Bob: [Reads policies from ../skillet-policies/]
+     [Creates skill, validates it, shows report]
 Bob: "✅ APPROVED - Skill ready to save!"
 
 # 2. Developer commits the skill
+$ cd skillet-skills
 $ git add skills/devops-docker-compose-setup.md
 $ git commit -m "feat: add devops-docker-compose-setup skill"
 $ git push origin main
@@ -318,10 +291,19 @@ Bob: [Applies changes]
 
 ---
 
+## 🔗 Related Repositories
+
+- **[skillet-policies](https://github.com/IvanDaHackerz/skillet-policies)** - Immutable company policies and standards (required)
+- **skillet-skills** (this repo) - Reusable development skills library
+
+**Both repositories must be cloned** for Skillet to work properly.
+
+---
+
 ## 🚧 Roadmap
 
-- [x] Phase 1: Foundation (repo structure, Bob config, rules)
-- [x] Phase 2: Meta-skills (create, validate)
+- [x] Phase 1: Two-repo architecture (policies + skills)
+- [x] Phase 2: Validation system (4 checks)
 - [ ] Phase 3: Sample skills (8 skills across categories)
 - [ ] Phase 4: Backend API (GitHub integration)
 - [ ] Phase 5: React dashboard (skill browser)
@@ -335,7 +317,8 @@ Bob: [Applies changes]
 ## 📞 Contact
 
 For questions or feedback about this hackathon project:
-- **Repository**: https://github.com/IvanDaHackerz/skillet-skills
+- **Skills Repository**: https://github.com/IvanDaHackerz/skillet-skills
+- **Policies Repository**: https://github.com/IvanDaHackerz/skillet-policies
 - **Hackathon**: IBM Bob Dev Day 2026
 
 ---

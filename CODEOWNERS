@@ -1,0 +1,46 @@
+# Skillet Skills - Code Owners
+# 
+# This repository contains the SKILLS LIBRARY for Skillet.
+# Skills can be created and modified by developers, subject to category-based review.
+#
+# For POLICIES and STANDARDS, see the skillet-policies repository (immutable).
+
+# Default owners for everything in the skills repo
+* @IvanDaHackerz
+
+# Backend Skills - Require approval from backend team leads
+/skills/backend-*.md @IvanDaHackerz
+# Example with team: /skills/backend-*.md @backend-team @tech-lead
+
+# Frontend Skills - Require approval from frontend team leads
+/skills/frontend-*.md @IvanDaHackerz
+# Example with team: /skills/frontend-*.md @frontend-team @tech-lead
+
+# DevOps Skills - Require approval from DevOps team leads
+/skills/devops-*.md @IvanDaHackerz
+# Example with team: /skills/devops-*.md @devops-team @tech-lead
+
+# QA Skills - Require approval from QA team leads
+/skills/qa-*.md @IvanDaHackerz
+# Example with team: /skills/qa-*.md @qa-team @tech-lead
+
+# Shared Skills - Can be approved by any team lead
+/skills/shared-*.md @IvanDaHackerz
+# Example with team: /skills/shared-*.md @tech-lead
+
+# Skill Metadata - Require approval from tech lead
+/metadata/ @IvanDaHackerz
+# Example with team: /metadata/ @tech-lead
+
+# Documentation - Can be approved by any maintainer
+/README.md @IvanDaHackerz
+/docs/ @IvanDaHackerz
+
+# GitHub Configuration - Require approval from repository admin
+/.github/ @IvanDaHackerz
+/CODEOWNERS @IvanDaHackerz
+
+# NOTE: This repo has LESS strict protection than skillet-policies
+# - Require 1 approval from CODEOWNERS (vs 2+ for policies)
+# - Developers can create skills freely
+# - Category owners review their respective skills
