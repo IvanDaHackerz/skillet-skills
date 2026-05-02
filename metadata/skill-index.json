@@ -1,15 +1,46 @@
 {
-  "skills": [],
-  "lastUpdated": "2026-05-02T08:16:00.000Z",
+  "skills": [
+    {
+      "name": "Skill Generator",
+      "slug": "shared-skill-generator",
+      "category": "shared",
+      "roles": ["backend", "frontend", "fullstack", "devops", "qa"],
+      "description": "Generates production-ready, reusable skills for Bob that follow company standards for format, security, and coding practices. Use this when you need to create a new skill that developers can use to automate common development tasks.",
+      "filePath": "skills/shared-skill-generator.md",
+      "prerequisites": [
+        "MCP server `skillet-github` is connected and configured",
+        "Access to the skillet-policies repository via MCP server",
+        "Understanding of the task or workflow the skill should automate",
+        "Clear definition of inputs, outputs, and steps required"
+      ],
+      "tags": ["skill-generation", "validation", "mcp", "automation", "policy-compliance"]
+    },
+    {
+      "name": "CSS to Tailwind Transformer",
+      "slug": "frontend-css-to-tailwind-transformer",
+      "category": "frontend",
+      "roles": ["frontend", "fullstack"],
+      "description": "Transforms traditional CSS styling into Tailwind CSS utility classes while preserving design intent and responsiveness. Use this when migrating existing CSS to Tailwind, refactoring inline styles, or converting component stylesheets to utility-first approach.",
+      "filePath": "skills/frontend-css-to-tailwind-transformer.md",
+      "prerequisites": [
+        "Tailwind CSS installed and configured in the project (`npm install -D tailwindcss`)",
+        "`tailwind.config.js` file exists in the project root",
+        "Understanding of the CSS file structure and component hierarchy",
+        "Access to the HTML/JSX files that use the CSS classes"
+      ],
+      "tags": ["css", "tailwind", "migration", "transformation", "frontend", "styling", "utility-classes"]
+    }
+  ],
+  "lastUpdated": "2026-05-02T18:04:00.000Z",
   "version": "1.0.0",
   "stats": {
-    "totalSkills": 0,
+    "totalSkills": 2,
     "byCategory": {
       "backend": 0,
-      "frontend": 0,
+      "frontend": 1,
       "devops": 0,
       "qa": 0,
-      "shared": 0
+      "shared": 1
     }
   }
 }

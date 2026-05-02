@@ -38,6 +38,11 @@ coverage/
 *.temp
 .cache/
 
+# MCP Server
+mcp-server/node_modules/
+mcp-server/dist/
+mcp-server/.env
+
 # Bob sessions - COMMIT EVERYTHING (required for hackathon judging)
 !bob_sessions/
 
