@@ -12,9 +12,9 @@
       "filename": "frontend-docker.md",
       "path": "skills/frontend-docker.md",
       "category": "frontend",
-      "addedAt": "2026-05-02T20:42:07.674Z",
+      "addedAt": "2026-05-02T20:53:17.584Z",
       "source": "factory",
-      "updatedAt": "2026-05-02T20:42:07.674Z"
+      "updatedAt": "2026-05-02T20:53:17.584Z"
     },
     {
       "filename": "backend-user.md",
@@ -25,7 +25,7 @@
       "updatedAt": "2026-05-02T20:47:19.580Z"
     }
   ],
-  "lastUpdated": "2026-05-02T20:47:19.580Z",
+  "lastUpdated": "2026-05-02T20:53:17.584Z",
   "version": "1.0.0",
   "stats": {
     "totalSkills": 3,
