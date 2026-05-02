@@ -2,7 +2,7 @@
 
 Transforms traditional CSS styling into Tailwind CSS utility classes while preserving design intent and responsiveness. Use this when migrating existing CSS to Tailwind, refactoring inline styles, or converting component stylesheets to utility-first approach. The transformation maintains visual consistency and follows Tailwind best practices.
 
-**Version:** 1.0.0
+**Version:** 1.0.1
 
 **Category:** frontend
 **Roles:** frontend, fullstack
