@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Threndir\\\\Documents\\\\ibm bob\" -Recurse -Force)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(grep -E \"\\\\.\\(md|json\\)$\")",
+      "Bash(npm start *)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(curl *)",
+      "PowerShell(netstat *)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:3001/api/factory/status\" -Method Get | ConvertTo-Json -Depth 5)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:3001/health\" | ConvertTo-Json)",
+      "PowerShell(Get-WmiObject *)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:3001/api/factory/status\" | ConvertTo-Json -Depth 5)"
+    ]
+  }
+}
