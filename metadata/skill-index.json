@@ -13,15 +13,22 @@
       "category": "frontend",
       "addedAt": "2026-05-02T22:04:34.426Z",
       "source": "factory"
+    },
+    {
+      "filename": "frontend-trend.md",
+      "path": "skills/frontend-trend.md",
+      "category": "frontend",
+      "addedAt": "2026-05-02T22:06:15.712Z",
+      "source": "factory"
     }
   ],
-  "lastUpdated": "2026-05-02T22:04:34.426Z",
+  "lastUpdated": "2026-05-02T22:06:15.712Z",
   "version": "1.0.0",
   "stats": {
-    "totalSkills": 2,
+    "totalSkills": 3,
     "byCategory": {
       "backend": 1,
-      "frontend": 1,
+      "frontend": 2,
       "devops": 0,
       "qa": 0,
       "shared": 0
