@@ -7,6 +7,22 @@ Transforms traditional CSS styling into Tailwind CSS utility classes while prese
 **Category:** frontend
 **Roles:** frontend, fullstack
 
+**Changes made:**
+- Added `hybrid` output format option for mixing component classes and inline utilities
+- Added `optimize_classes` parameter for automatic class deduplication
+- Added `generate_variants` parameter for automatic hover/focus/active state generation
+- Enhanced Step 1 with comprehensive CSS analysis and categorization
+- Improved Step 3 mapping document with 5 detailed sections (direct conversions, complex patterns, preserved CSS, theme extensions, optimization opportunities)
+- Enhanced Step 6 with better CSS custom properties handling and specific recommendations
+- Added new Step 11 for optimization and deduplication of classes
+- Added new Step 12 for comprehensive documentation generation (TRANSFORMATION_SUMMARY.md)
+- Expanded Step 10 with detailed Tailwind configuration examples
+- Added Step 8 with proper CSS file structure using @layer directives
+- Enhanced examples with actual code snippets showing expected output
+- Expanded Notes section with mobile-first approach, class ordering, accessibility, and dark mode considerations
+- Added warnings about long class strings and purge configuration
+- Added more related skills including dark mode implementation and responsive design converter
+
 ---
 
 ## Prerequisites
