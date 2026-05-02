@@ -1,141 +1,377 @@
-# CSS to Tailwind Transformer
+# CSS to Tailwind Refactor
 
-Transforms traditional CSS styling into Tailwind CSS utility classes while preserving design intent and responsiveness. Use this when migrating existing CSS to Tailwind, refactoring inline styles, or converting component stylesheets to utility-first approach. The transformation maintains visual consistency and follows Tailwind best practices.
+## Description
+Automatically refactors traditional CSS styles into Tailwind CSS utility classes. Analyzes existing CSS files, identifies patterns, and converts them to equivalent Tailwind utilities while preserving functionality. Use this when migrating legacy projects to Tailwind or modernizing component styling with utility-first CSS.
 
-**Category:** frontend
-**Roles:** frontend, fullstack
+## Category
+frontend
 
----
+## Roles
+frontend, fullstack
 
 ## Prerequisites
-
-- Tailwind CSS installed and configured in the project (`npm install -D tailwindcss`)
-- `tailwind.config.js` file exists in the project root
-- Understanding of the CSS file structure and component hierarchy
-- Access to the HTML/JSX files that use the CSS classes
-
----
-
-## Inputs
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `css_file_path` | string | Yes | Path to the CSS file to transform (e.g., `src/styles/components.css`) |
-| `target_files` | array | No | List of HTML/JSX files that use these styles (for context) |
-| `preserve_custom` | boolean | No | Whether to preserve custom CSS that can't be converted (default: `true`) |
-| `responsive_breakpoints` | array | No | Breakpoints to consider: `sm`, `md`, `lg`, `xl`, `2xl` (default: all) |
-| `output_format` | string | No | Output format: `inline` (utility classes) or `component` (Tailwind @apply) |
-
----
+- Tailwind CSS installed in the project (`npm install -D tailwindcss`)
+- Tailwind configuration file (`tailwind.config.js`) exists
+- Basic understanding of CSS and Tailwind utility classes
+- Node.js and npm installed
+- Text editor or IDE with file access
 
 ## Steps
+1. Analyze the target CSS file(s) to identify all style rules and selectors
+2. Parse CSS properties and values (colors, spacing, typography, layout, etc.)
+3. Map each CSS property to equivalent Tailwind utility classes
+4. Handle complex selectors (pseudo-classes, media queries, animations)
+5. Convert color values to Tailwind color palette or custom colors
+6. Transform spacing values (margin, padding) to Tailwind spacing scale
+7. Convert responsive breakpoints to Tailwind responsive utilities
+8. Replace hover/focus states with Tailwind state variants
+9. Apply utility classes to HTML elements, removing inline styles
+10. Create custom Tailwind classes in config for non-standard values
+11. Remove or comment out the original CSS file
+12. Verify visual consistency between old CSS and new Tailwind classes
 
-### Step 1: Read and Analyze the CSS File
-
-First, use the `read_file` tool to read the CSS file at the path provided by the user.
-Identify CSS selectors, properties, media queries, pseudo-classes, and any custom properties or variables.
-Note the structure: are these component styles, utility classes, or layout styles?
-
-### Step 2: Read Related HTML/JSX Files
-
-Next, if `target_files` are provided, use the `read_file` tool to read up to 3 related files together.
-Examine how CSS classes are applied, what elements use which styles, and the component structure.
-This context helps determine the best Tailwind approach and ensures class names match usage.
-
-### Step 3: Create Tailwind Mapping Document
-
-Then, use the `create_temporary_file` tool with `action` set to `create_editor` to create a mapping document.
-List each CSS rule with its equivalent Tailwind classes side by side for user review.
-Include comments explaining complex transformations or cases where custom CSS should be preserved.
-Set `language` to `markdown` and `suffix` to `.md` for easy reading.
-
-### Step 4: Wait for User Review and Approval
-
-After that, present the mapping document to the user and ask them to review the transformations.
-Use the `ask_followup_question` tool to confirm they approve the mapping or want adjustments.
-If adjustments are needed, use the `create_temporary_file` tool with `action` set to `get_content` to retrieve the current mapping, then update it with `create_editor` again.
-
-### Step 5: Transform CSS to Tailwind Classes
-
-Next, based on the approved mapping, prepare the Tailwind class replacements.
-For `inline` format, create a list of class name replacements for HTML/JSX files.
-For `component` format, create new CSS using Tailwind's `@apply` directive for reusable components.
-
-### Step 6: Update HTML/JSX Files (Inline Format)
-
-If `output_format` is `inline`, use the `read_file` tool to read each target file.
-Then use the `apply_diff` tool to replace old CSS class names with Tailwind utility classes.
-Maintain proper spacing and formatting, and group related utilities logically (layout, spacing, colors, typography).
-
-### Step 7: Create Component CSS File (Component Format)
-
-If `output_format` is `component`, use the `write_to_file` tool to create a new CSS file.
-Use Tailwind's `@apply` directive to compose utility classes into semantic component classes.
-Include the `@layer components` directive to ensure proper CSS cascade order.
-
-### Step 8: Handle Custom CSS Preservation
-
-Then, if `preserve_custom` is `true`, use the `write_to_file` tool to create a `custom.css` file.
-Include any CSS that cannot be converted to Tailwind (complex animations, unique gradients, etc.).
-Add comments explaining why each rule is preserved and reference the original CSS file.
-
-### Step 9: Update Tailwind Configuration
-
-Next, use the `read_file` tool to read `tailwind.config.js`.
-Check if custom colors, spacing, or other design tokens need to be added to match the original CSS.
-If needed, use the `apply_diff` tool to extend the Tailwind theme with custom values.
-
-### Step 10: Clean Up and Verify
-
-Finally, use the `create_temporary_file` tool with `action` set to `cleanup` to remove the mapping document.
-Present a summary of changes: files modified, classes converted, and any custom CSS preserved.
-Recommend running the build process to verify Tailwind compilation and visual testing.
-
----
+## Inputs
+- CSS file path (string, required): Path to the CSS file to refactor (e.g., "styles.css", "component.module.css")
+- HTML/JSX file path (string, required): Path to the corresponding HTML or component file
+- Preserve custom properties (boolean, optional): Keep CSS custom properties (variables) instead of converting, defaults to false
+- Output format (string, optional): "inline" (apply classes directly) or "extract" (create component classes), defaults to "inline"
+- Tailwind config path (string, optional): Path to tailwind.config.js, defaults to "./tailwind.config.js"
 
 ## Outputs
-
-- Modified HTML/JSX files with Tailwind utility classes (if `inline` format)
-- `components.css` with `@apply` directives (if `component` format)
-- `custom.css` with preserved custom styles (if `preserve_custom` is `true`)
-- Updated `tailwind.config.js` with custom theme extensions (if needed)
-- Transformation summary document listing all changes
-
----
+- Updated HTML/JSX file with Tailwind utility classes applied
+- Modified or removed CSS file (commented out or deleted based on preference)
+- Updated tailwind.config.js with custom colors, spacing, or utilities if needed
+- Refactor report showing conversion statistics and any manual review items
+- Backup of original files with .backup extension
 
 ## Example Usage
 
-**User request:**
-> Transform the CSS in `src/styles/button.css` to Tailwind classes. The styles are used in `src/components/Button.jsx`. Use inline format and preserve any custom animations.
+### Input CSS File (styles.css)
+```css
+.button {
+  background-color: #10b981;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-**Expected output:**
-- `src/components/Button.jsx` — Updated with Tailwind utility classes like `bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded`
-- `src/styles/custom.css` — Contains preserved custom button animations
-- `tailwind.config.js` — Extended with custom blue color shades if needed
-- Transformation summary showing 15 CSS rules converted to Tailwind utilities
+.button:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
 
----
+.button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 16px;
+    max-width: 100%;
+  }
+}
+```
+
+### Input HTML File (index.html)
+```html
+<div class="card">
+  <h2>Welcome</h2>
+  <p>This is a card component</p>
+  <button class="button">Click Me</button>
+  <button class="button" disabled>Disabled</button>
+</div>
+```
+
+### Output HTML File (index.html) - After Refactoring
+```html
+<div class="bg-white rounded-xl p-6 shadow-sm max-w-md mx-auto md:p-4 md:max-w-full">
+  <h2>Welcome</h2>
+  <p>This is a card component</p>
+  <button class="bg-emerald-500 text-white px-6 py-3 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 shadow-sm hover:bg-emerald-700 hover:-translate-y-0.5 hover:shadow-md">
+    Click Me
+  </button>
+  <button class="bg-emerald-500 text-white px-6 py-3 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 shadow-sm disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-60" disabled>
+    Disabled
+  </button>
+</div>
+```
+
+### Refactor Report
+```
+CSS to Tailwind Refactor Report
+================================
+
+File: styles.css → index.html
+Total CSS Rules: 4
+Successfully Converted: 4
+Manual Review Required: 0
+
+Conversion Details:
+-------------------
+✅ .button → Tailwind utilities (bg-emerald-500, px-6, py-3, etc.)
+✅ .button:hover → hover: variants
+✅ .button:disabled → disabled: variants
+✅ .card → Tailwind utilities with responsive variants
+✅ @media queries → md: responsive prefix
+
+Custom Values Added to tailwind.config.js:
+------------------------------------------
+None (all values matched existing Tailwind scale)
+
+Backup Created:
+---------------
+✅ styles.css.backup
+✅ index.html.backup
+```
+
+## Detailed Conversion Examples
+
+### Example 1: React Component with CSS Module
+
+**Before (Button.module.css):**
+```css
+.primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.primary:hover {
+  transform: scale(1.05);
+}
+```
+
+**Before (Button.jsx):**
+```jsx
+import styles from './Button.module.css';
+
+const Button = ({ children }) => {
+  return <button className={styles.primary}>{children}</button>;
+};
+```
+
+**After (Button.jsx):**
+```jsx
+const Button = ({ children }) => {
+  return (
+    <button className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-transform duration-200 hover:scale-105">
+      {children}
+    </button>
+  );
+};
+```
+
+### Example 2: Complex Layout with Flexbox
+
+**Before (layout.css):**
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    padding: 4rem;
+  }
+}
+```
+
+**After (HTML):**
+```html
+<div class="flex flex-col items-center justify-between min-h-screen p-8 gap-4 md:flex-row md:p-16">
+  <!-- Content -->
+</div>
+```
+
+### Example 3: Custom Colors and Spacing
+
+**Before (custom.css):**
+```css
+.brand-card {
+  background-color: #ff6b6b;
+  padding: 18px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+```
+
+**After (tailwind.config.js):**
+```javascript
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          red: '#ff6b6b',
+        },
+      },
+      spacing: {
+        '18': '4.5rem',
+      },
+    },
+  },
+};
+```
+
+**After (HTML):**
+```html
+<div class="bg-brand-red p-18 mb-5 rounded-md">
+  <!-- Content -->
+</div>
+```
+
+## CSS Property to Tailwind Mapping
+
+### Layout
+- `display: flex` → `flex`
+- `display: grid` → `grid`
+- `display: block` → `block`
+- `display: inline-block` → `inline-block`
+- `position: relative` → `relative`
+- `position: absolute` → `absolute`
+- `position: fixed` → `fixed`
+- `position: sticky` → `sticky`
+
+### Spacing
+- `padding: 16px` → `p-4`
+- `padding: 8px 16px` → `py-2 px-4`
+- `margin: 16px` → `m-4`
+- `margin: 0 auto` → `mx-auto`
+- `gap: 16px` → `gap-4`
+
+### Typography
+- `font-size: 16px` → `text-base`
+- `font-weight: 600` → `font-semibold`
+- `font-weight: 700` → `font-bold`
+- `text-align: center` → `text-center`
+- `line-height: 1.5` → `leading-normal`
+
+### Colors
+- `color: #000000` → `text-black`
+- `background-color: #ffffff` → `bg-white`
+- `border-color: #e5e7eb` → `border-gray-200`
+
+### Borders
+- `border-radius: 8px` → `rounded-lg`
+- `border: 1px solid #e5e7eb` → `border border-gray-200`
+- `border-width: 2px` → `border-2`
+
+### Effects
+- `box-shadow: 0 1px 3px rgba(0,0,0,0.1)` → `shadow-sm`
+- `opacity: 0.5` → `opacity-50`
+- `transition: all 0.3s` → `transition-all duration-300`
+
+### Responsive Breakpoints
+- `@media (min-width: 640px)` → `sm:`
+- `@media (min-width: 768px)` → `md:`
+- `@media (min-width: 1024px)` → `lg:`
+- `@media (min-width: 1280px)` → `xl:`
+- `@media (min-width: 1536px)` → `2xl:`
+
+### State Variants
+- `:hover` → `hover:`
+- `:focus` → `focus:`
+- `:active` → `active:`
+- `:disabled` → `disabled:`
+- `:first-child` → `first:`
+- `:last-child` → `last:`
 
 ## Notes
 
-- Tailwind uses a mobile-first approach, so start with base styles and add responsive modifiers
-- Group utility classes logically: layout → spacing → sizing → colors → typography → effects
-- Use Tailwind's arbitrary values `[value]` for one-off custom values that don't need theme extension
-- Consider using `@apply` for frequently repeated utility combinations
-- Preserve complex CSS like keyframe animations, complex gradients, or browser-specific hacks
+### Best Practices
+- Always create backups before refactoring
+- Test visual consistency after conversion
+- Use browser DevTools to compare before/after
+- Consider extracting repeated utility combinations into components
+- Use `@apply` directive in CSS for complex repeated patterns
+- Leverage Tailwind's JIT mode for custom values
 
-## Warnings
+### Performance Considerations
+- Tailwind's JIT compiler only includes used utilities
+- Purge unused CSS in production builds
+- Consider code splitting for large applications
+- Use component extraction for repeated patterns
 
-> ⚠️ Always test the visual output after transformation to ensure design consistency.
+### Common Pitfalls
+- Not all CSS can be directly converted (complex animations, keyframes)
+- Custom CSS properties may need manual handling
+- Browser-specific prefixes require attention
+- Z-index values may need custom configuration
 
-> ⚠️ Some CSS features (like complex selectors or pseudo-elements) may require custom CSS preservation.
+### When NOT to Use This Skill
+- Projects with minimal CSS (not worth the migration effort)
+- CSS-in-JS solutions (styled-components, emotion) - different approach needed
+- Complex animations requiring @keyframes (keep in separate CSS file)
+- Third-party component libraries with their own styling system
 
-> ⚠️ Tailwind's JIT mode must be enabled for arbitrary values to work properly.
+## Manual Review Items
 
-> ⚠️ Review responsive breakpoints carefully as Tailwind's defaults may differ from your original CSS.
+After automatic refactoring, manually review:
+1. **Complex animations**: Convert @keyframes to Tailwind's animation utilities or keep in CSS
+2. **CSS Grid templates**: May require custom grid-template-columns/rows
+3. **Custom fonts**: Ensure font-family is configured in Tailwind config
+4. **Calc() functions**: May need custom spacing values
+5. **CSS variables**: Decide whether to convert to Tailwind theme or keep as CSS custom properties
+6. **Print styles**: Keep @media print rules in separate CSS file
+7. **Browser hacks**: Review if still needed with modern Tailwind
+
+## Troubleshooting
+
+### Issue: Colors don't match exactly
+**Solution**: Add custom colors to `tailwind.config.js` theme.extend.colors
+
+### Issue: Spacing values not available
+**Solution**: Add custom spacing to `tailwind.config.js` theme.extend.spacing
+
+### Issue: Complex selectors not converting
+**Solution**: Use `@apply` directive or keep as custom CSS
+
+### Issue: Animations not working
+**Solution**: Define custom animations in Tailwind config or use separate CSS file
+
+### Issue: Pseudo-elements (::before, ::after) not converting
+**Solution**: Use Tailwind's `before:` and `after:` variants with content utilities
 
 ## Related Skills
+- `frontend-tailwind-component-library`: Create reusable Tailwind components
+- `frontend-responsive-design`: Implement responsive layouts with Tailwind
+- `frontend-dark-mode-setup`: Add dark mode support with Tailwind
 
-- Tailwind Configuration Generator
-- Component Library Migration
-- CSS Optimization and Cleanup
+## Accessibility Considerations
+- Ensure color contrast ratios meet WCAG standards after conversion
+- Maintain focus indicators (use `focus:` variants)
+- Preserve screen reader text and ARIA attributes
+- Test keyboard navigation after refactoring
+
+## Version Compatibility
+- Tailwind CSS v3.0+
+- Works with React, Vue, Angular, and vanilla HTML
+- Compatible with Next.js, Vite, and other build tools
