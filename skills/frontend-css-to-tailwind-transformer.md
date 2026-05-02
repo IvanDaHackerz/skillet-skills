@@ -18,13 +18,13 @@ Transforms traditional CSS styling into Tailwind CSS utility classes while prese
 
 ## Inputs
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `css_file_path` | string | Yes | Path to the CSS file to transform (e.g., `src/styles/components.css`) |
-| `target_files` | array | No | List of HTML/JSX files that use these styles (for context) |
-| `preserve_custom` | boolean | No | Whether to preserve custom CSS that can't be converted (default: `true`) |
-| `responsive_breakpoints` | array | No | Breakpoints to consider: `sm`, `md`, `lg`, `xl`, `2xl` (default: all) |
-| `output_format` | string | No | Output format: `inline` (utility classes) or `component` (Tailwind @apply) |
+| Name                     | Type    | Required | Description                                                                |
+| ------------------------ | ------- | -------- | -------------------------------------------------------------------------- |
+| `css_file_path`          | string  | Yes      | Path to the CSS file to transform (e.g., `src/styles/components.css`)      |
+| `target_files`           | array   | No       | List of HTML/JSX files that use these styles (for context)                 |
+| `preserve_custom`        | boolean | No       | Whether to preserve custom CSS that can't be converted (default: `true`)   |
+| `responsive_breakpoints` | array   | No       | Breakpoints to consider: `sm`, `md`, `lg`, `xl`, `2xl` (default: all)      |
+| `output_format`          | string  | No       | Output format: `inline` (utility classes) or `component` (Tailwind @apply) |
 
 ---
 
@@ -55,47 +55,56 @@ After that, present the mapping document to the user and ask them to review the 
 Use the `ask_followup_question` tool to confirm they approve the mapping or want adjustments.
 If adjustments are needed, use the `create_temporary_file` tool with `action` set to `get_content` to retrieve the current mapping, then update it with `create_editor` again.
 
-### Step 5: Transform CSS to Tailwind Classes
+### Step 5: Validate CSS Custom Properties
 
-Next, based on the approved mapping, prepare the Tailwind class replacements.
+Next, before transforming, use the `search_files` tool to scan the CSS file for CSS custom properties (variables).
+Look for patterns like `--variable-name` in property declarations and `var(--variable-name)` in usage.
+If custom properties are found, warn the user that these require manual handling in Tailwind.
+Suggest either: (1) adding them to `tailwind.config.js` theme, or (2) preserving them in a separate custom CSS file.
+Document all found custom properties in the mapping file for user review.
+
+### Step 6: Transform CSS to Tailwind Classes
+
+Then, based on the approved mapping and custom property decisions, prepare the Tailwind class replacements.
 For `inline` format, create a list of class name replacements for HTML/JSX files.
 For `component` format, create new CSS using Tailwind's `@apply` directive for reusable components.
 
-### Step 6: Validate CSS Custom Properties and Update HTML/JSX Files
+### Step 7: Update HTML/JSX Files (Inline Format)
 
-First, scan the CSS file content from Step 1 for CSS custom properties (variables starting with `--`).
-If custom properties are found, use the `ask_followup_question` tool to warn the user:
-"CSS custom properties detected: [list property names]. These require manual handling as Tailwind doesn't directly support CSS variables in utility classes. Options: 1) Add to tailwind.config.js theme, 2) Keep in custom CSS, 3) Convert to static values."
-Provide suggestions with the detected property names for each option.
-
-Then, if `output_format` is `inline`, use the `read_file` tool to read each target file.
-Use the `apply_diff` tool to replace old CSS class names with Tailwind utility classes.
+If `output_format` is `inline`, use the `read_file` tool to read each target file.
+Then use the `apply_diff` tool to replace old CSS class names with Tailwind utility classes.
 Maintain proper spacing and formatting, and group related utilities logically (layout, spacing, colors, typography).
-For any elements using custom properties, add a comment indicating manual review is needed.
 
-### Step 7: Create Component CSS File (Component Format)
+### Step 8: Create Component CSS File (Component Format)
 
 If `output_format` is `component`, use the `write_to_file` tool to create a new CSS file.
 Use Tailwind's `@apply` directive to compose utility classes into semantic component classes.
 Include the `@layer components` directive to ensure proper CSS cascade order.
 
-### Step 8: Handle Custom CSS Preservation
+### Step 9: Handle Custom CSS Preservation
 
 Then, if `preserve_custom` is `true`, use the `write_to_file` tool to create a `custom.css` file.
 Include any CSS that cannot be converted to Tailwind (complex animations, unique gradients, etc.).
 Add comments explaining why each rule is preserved and reference the original CSS file.
 
-### Step 9: Update Tailwind Configuration
+### Step 10: Update Tailwind Configuration
 
 Next, use the `read_file` tool to read `tailwind.config.js`.
 Check if custom colors, spacing, or other design tokens need to be added to match the original CSS.
 If needed, use the `apply_diff` tool to extend the Tailwind theme with custom values.
 
-### Step 10: Clean Up and Verify
+### Step 11: Clean Up and Verify
 
-Finally, use the `create_temporary_file` tool with `action` set to `cleanup` to remove the mapping document.
+Then, use the `create_temporary_file` tool with `action` set to `cleanup` to remove the mapping document.
 Present a summary of changes: files modified, classes converted, and any custom CSS preserved.
 Recommend running the build process to verify Tailwind compilation and visual testing.
+
+### Step 12: Add Documentation Comments
+
+Finally, use the `apply_diff` tool to add comments to the transformed code explaining the Tailwind approach.
+Include comments for complex utility combinations, responsive design decisions, and any preserved custom CSS.
+Document the reasoning behind specific Tailwind class choices, especially for non-obvious transformations.
+Add JSDoc or inline comments in component files to help future developers understand the utility class patterns.
 
 ---
 
@@ -112,9 +121,11 @@ Recommend running the build process to verify Tailwind compilation and visual te
 ## Example Usage
 
 **User request:**
+
 > Transform the CSS in `src/styles/button.css` to Tailwind classes. The styles are used in `src/components/Button.jsx`. Use inline format and preserve any custom animations.
 
 **Expected output:**
+
 - `src/components/Button.jsx` — Updated with Tailwind utility classes like `bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded`
 - `src/styles/custom.css` — Contains preserved custom button animations
 - `tailwind.config.js` — Extended with custom blue color shades if needed
@@ -139,8 +150,6 @@ Recommend running the build process to verify Tailwind compilation and visual te
 > ⚠️ Tailwind's JIT mode must be enabled for arbitrary values to work properly.
 
 > ⚠️ Review responsive breakpoints carefully as Tailwind's defaults may differ from your original CSS.
-
-> ⚠️ CSS custom properties (CSS variables) require special handling and cannot be directly converted to Tailwind utilities.
 
 ## Related Skills
 
