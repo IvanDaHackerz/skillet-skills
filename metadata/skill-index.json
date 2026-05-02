@@ -3,6 +3,7 @@
     {
       "name": "Skill Generator",
       "slug": "shared-skill-generator",
+      "version": "1.0.0",
       "category": "shared",
       "roles": ["backend", "frontend", "fullstack", "devops", "qa"],
       "description": "Generates production-ready, reusable skills for Bob that follow company standards for format, security, and coding practices. Use this when you need to create a new skill that developers can use to automate common development tasks.",
@@ -18,6 +19,7 @@
     {
       "name": "CSS to Tailwind Transformer",
       "slug": "frontend-css-to-tailwind-transformer",
+      "version": "1.0.0",
       "category": "frontend",
       "roles": ["frontend", "fullstack"],
       "description": "Transforms traditional CSS styling into Tailwind CSS utility classes while preserving design intent and responsiveness. Use this when migrating existing CSS to Tailwind, refactoring inline styles, or converting component stylesheets to utility-first approach.",
@@ -31,7 +33,7 @@
       "tags": ["css", "tailwind", "migration", "transformation", "frontend", "styling", "utility-classes"]
     }
   ],
-  "lastUpdated": "2026-05-02T18:04:00.000Z",
+  "lastUpdated": "2026-05-02T19:45:00.000Z",
   "version": "1.0.0",
   "stats": {
     "totalSkills": 2,
