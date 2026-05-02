@@ -61,11 +61,17 @@ Next, based on the approved mapping, prepare the Tailwind class replacements.
 For `inline` format, create a list of class name replacements for HTML/JSX files.
 For `component` format, create new CSS using Tailwind's `@apply` directive for reusable components.
 
-### Step 6: Update HTML/JSX Files (Inline Format)
+### Step 6: Validate CSS Custom Properties and Update HTML/JSX Files
 
-If `output_format` is `inline`, use the `read_file` tool to read each target file.
-Then use the `apply_diff` tool to replace old CSS class names with Tailwind utility classes.
+First, scan the CSS file content from Step 1 for CSS custom properties (variables starting with `--`).
+If custom properties are found, use the `ask_followup_question` tool to warn the user:
+"CSS custom properties detected: [list property names]. These require manual handling as Tailwind doesn't directly support CSS variables in utility classes. Options: 1) Add to tailwind.config.js theme, 2) Keep in custom CSS, 3) Convert to static values."
+Provide suggestions with the detected property names for each option.
+
+Then, if `output_format` is `inline`, use the `read_file` tool to read each target file.
+Use the `apply_diff` tool to replace old CSS class names with Tailwind utility classes.
 Maintain proper spacing and formatting, and group related utilities logically (layout, spacing, colors, typography).
+For any elements using custom properties, add a comment indicating manual review is needed.
 
 ### Step 7: Create Component CSS File (Component Format)
 
@@ -133,6 +139,8 @@ Recommend running the build process to verify Tailwind compilation and visual te
 > ⚠️ Tailwind's JIT mode must be enabled for arbitrary values to work properly.
 
 > ⚠️ Review responsive breakpoints carefully as Tailwind's defaults may differ from your original CSS.
+
+> ⚠️ CSS custom properties (CSS variables) require special handling and cannot be directly converted to Tailwind utilities.
 
 ## Related Skills
 
