@@ -1,0 +1,15 @@
+{
+  "skills": [],
+  "lastUpdated": "2026-05-02T08:16:00.000Z",
+  "version": "1.0.0",
+  "stats": {
+    "totalSkills": 0,
+    "byCategory": {
+      "backend": 0,
+      "frontend": 0,
+      "devops": 0,
+      "qa": 0,
+      "shared": 0
+    }
+  }
+}
