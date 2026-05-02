@@ -1,0 +1,12 @@
+# This file ensures the skills/ directory is tracked by Git
+
+This folder will contain all reusable development skills.
+
+Skills are named with category prefixes:
+- backend-*.md
+- frontend-*.md
+- devops-*.md
+- qa-*.md
+- shared-*.md
+
+Skills will be added in Phase 3 of the implementation.
