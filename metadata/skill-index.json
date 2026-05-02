@@ -1,37 +1,20 @@
 {
   "skills": [
     {
-      "filename": "frontend-trend.md",
-      "path": "skills/frontend-trend.md",
-      "category": "frontend",
-      "addedAt": "2026-05-02T20:23:44.676Z",
-      "source": "factory",
-      "updatedAt": "2026-05-02T20:23:44.676Z"
-    },
-    {
-      "filename": "frontend-docker.md",
-      "path": "skills/frontend-docker.md",
-      "category": "frontend",
-      "addedAt": "2026-05-02T20:53:17.584Z",
-      "source": "factory",
-      "updatedAt": "2026-05-02T20:53:17.584Z"
-    },
-    {
       "filename": "backend-user.md",
       "path": "skills/backend-user.md",
       "category": "backend",
-      "addedAt": "2026-05-02T20:47:19.580Z",
-      "source": "factory",
-      "updatedAt": "2026-05-02T20:47:19.580Z"
+      "addedAt": "2026-05-02T20:55:05.361Z",
+      "source": "factory"
     }
   ],
-  "lastUpdated": "2026-05-02T20:53:17.584Z",
+  "lastUpdated": "2026-05-02T20:55:05.361Z",
   "version": "1.0.0",
   "stats": {
-    "totalSkills": 3,
+    "totalSkills": 1,
     "byCategory": {
       "backend": 1,
-      "frontend": 2,
+      "frontend": 0,
       "devops": 0,
       "qa": 0,
       "shared": 0
