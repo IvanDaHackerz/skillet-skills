@@ -4,17 +4,24 @@ This guide explains how to use the GitHub MCP server tools in your Skillet skill
 
 ## Overview
 
-The GitHub MCP server provides 6 tools that allow skills to interact with the Skillet repositories:
+The GitHub MCP server provides 8 tools that allow skills to interact with the Skillet repositories:
 
 ### Read-Only Tools (skillet-policies)
+
 - `read_policy_file` - Read files from policies repository
 - `list_policy_files` - List directory contents in policies repository
 
 ### Read-Write Tools (skillet-skills)
+
 - `read_skill_file` - Read files from skills repository
 - `write_skill_file` - Create or update files in skills repository
 - `list_skill_files` - List directory contents in skills repository
 - `update_skill_metadata` - Update the skill-index.json file
+
+### Git Operations (skillet-skills)
+
+- `create_branch` - Create a new branch in the repository
+- `create_pull_request` - Create a pull request for code review
 
 ## Tool Reference
 
@@ -23,9 +30,11 @@ The GitHub MCP server provides 6 tools that allow skills to interact with the Sk
 Read a file from the skillet-policies repository (read-only).
 
 **Parameters:**
+
 - `path` (required): File path within the repository
 
 **Example:**
+
 ```markdown
 ## Steps
 
@@ -36,6 +45,7 @@ Read a file from the skillet-policies repository (read-only).
 ```
 
 **Use Cases:**
+
 - Reading company policies before generating code
 - Checking security guidelines
 - Validating against skill format requirements
@@ -48,9 +58,11 @@ Read a file from the skillet-policies repository (read-only).
 List files in a directory within the skillet-policies repository.
 
 **Parameters:**
+
 - `path` (optional): Directory path (default: root)
 
 **Example:**
+
 ```markdown
 ## Steps
 
@@ -61,6 +73,7 @@ List files in a directory within the skillet-policies repository.
 ```
 
 **Use Cases:**
+
 - Discovering available policies
 - Finding specific rule files
 - Exploring policy structure
@@ -72,9 +85,11 @@ List files in a directory within the skillet-policies repository.
 Read a file from the skillet-skills repository.
 
 **Parameters:**
+
 - `path` (required): File path within the repository
 
 **Example:**
+
 ```markdown
 ## Steps
 
@@ -85,6 +100,7 @@ Read a file from the skillet-skills repository.
 ```
 
 **Use Cases:**
+
 - Reading existing skills for reference
 - Checking skill metadata
 - Analyzing skill patterns
@@ -97,12 +113,14 @@ Read a file from the skillet-skills repository.
 Create or update a file in the skillet-skills repository.
 
 **Parameters:**
+
 - `path` (required): File path within the repository
 - `content` (required): Content to write
 - `message` (required): Commit message
 - `branch` (optional): Branch name (default: main)
 
 **Example:**
+
 ```markdown
 ## Steps
 
@@ -116,12 +134,14 @@ Create or update a file in the skillet-skills repository.
 ```
 
 **Use Cases:**
+
 - Creating new skills
 - Updating existing skills
 - Saving generated content
 - Committing changes with descriptive messages
 
 **Commit Message Guidelines:**
+
 - Use conventional commits format: `type: description`
 - Types: `feat`, `fix`, `docs`, `chore`, `refactor`
 - Be descriptive and specific
@@ -138,9 +158,11 @@ Create or update a file in the skillet-skills repository.
 List files in a directory within the skillet-skills repository.
 
 **Parameters:**
+
 - `path` (optional): Directory path (default: root)
 
 **Example:**
+
 ```markdown
 ## Steps
 
@@ -157,6 +179,7 @@ List files in a directory within the skillet-skills repository.
 ```
 
 **Use Cases:**
+
 - Discovering existing skills
 - Checking for duplicates
 - Finding skills by category
@@ -169,36 +192,139 @@ List files in a directory within the skillet-skills repository.
 Update the skill-index.json metadata file.
 
 **Parameters:**
+
 - `content` (required): Updated JSON content
 - `message` (required): Commit message
 
 **Example:**
-```markdown
+
+````markdown
 ## Steps
 
 1. Update skill metadata
    - Tool: update_skill_metadata
+
+---
+
+### 7. create_branch
+
+Create a new branch in a GitHub repository.
+
+**Parameters:**
+
+- `branch` (required): New branch name
+- `from_branch` (optional): Source branch to create from (default: main)
+- `repo` (optional): Repository name (default: SKILLS_REPO)
+
+**Example:**
+
+```markdown
+## Steps
+
+1. Create a feature branch for modifications
+   - Tool: create_branch
    - Parameters:
-     - content: |
-       {
-         "skills": [...],
-         "lastUpdated": "2026-05-02T17:30:00.000Z",
-         "version": "1.0.0",
-         "stats": {
-           "totalSkills": 5,
-           "byCategory": {
-             "backend": 2,
-             "frontend": 2,
-             "devops": 1,
-             "qa": 0,
-             "shared": 0
-           }
-         }
-       }
-     - message: "chore: update skill index with new backend skill"
+     - branch: "modify-skill/frontend-css-step5"
+     - from_branch: "main"
+     - repo: "skillet-skills"
+```
+````
+
+**Use Cases:**
+
+- Creating feature branches for skill modifications
+- Setting up isolated development branches
+- Preparing branches for pull requests
+- Creating branches for experimental changes
+
+**Branch Naming Conventions:**
+
+- Use descriptive names: `feature/`, `modify-skill/`, `fix/`
+- Include context: `modify-skill/frontend-css-step5-validation`
+- Use kebab-case: `my-feature-branch`
+- Avoid special characters and spaces
+
+---
+
+### 8. create_pull_request
+
+Create a pull request in a GitHub repository.
+
+**Parameters:**
+
+- `title` (required): Pull request title
+- `body` (required): Pull request description/body
+- `head` (required): Source branch name
+- `base` (optional): Target branch name (default: main)
+- `repo` (optional): Repository name (default: SKILLS_REPO)
+
+**Example:**
+
+```markdown
+## Steps
+
+1. Create pull request for review
+   - Tool: create_pull_request
+   - Parameters:
+     - title: "Modify Frontend CSS Transformer: Add Custom Property Validation"
+     - body: |
+
+       ## Validation Comparison
+
+       Original: 85/100
+       Modified: 90/100
+
+       ## Changes
+       - Added custom property validation in Step 5
+       - Improved error handling
+
+       ## Review Checklist
+       - [ ] Validation scores improved
+       - [ ] No policy violations
+       - [ ] Security guidelines followed
+
+     - head: "modify-skill/frontend-css-step5"
+     - base: "main"
+     - repo: "skillet-skills"
 ```
 
 **Use Cases:**
+
+- Creating PRs for skill modifications
+- Submitting new skills for review
+- Requesting code review from senior devs
+- Documenting changes with validation results
+
+**PR Best Practices:**
+
+- Use clear, descriptive titles
+- Include validation comparison in body
+- Add review checklist
+- Reference related issues or skills
+- Provide context for reviewers
+  - Parameters:
+    - content: |
+      {
+      "skills": [...],
+      "lastUpdated": "2026-05-02T17:30:00.000Z",
+      "version": "1.0.0",
+      "stats": {
+      "totalSkills": 5,
+      "byCategory": {
+      "backend": 2,
+      "frontend": 2,
+      "devops": 1,
+      "qa": 0,
+      "shared": 0
+      }
+      }
+      }
+    - message: "chore: update skill index with new backend skill"
+
+````
+
+**Use Cases:**
+
 - Registering new skills
 - Updating skill statistics
 - Maintaining skill catalog
@@ -214,12 +340,15 @@ Here's a complete example of a skill that uses multiple MCP tools:
 # Backend REST API Endpoint Generator
 
 ## Category
+
 backend
 
 ## Description
+
 Generates a new REST API endpoint with proper structure, validation, and error handling.
 
 ## Prerequisites
+
 - Express.js project
 - Existing API structure
 - Database models defined
@@ -233,6 +362,19 @@ Generates a new REST API endpoint with proper structure, validation, and error h
    - Store the standards for reference
 
 2. Read the security guidelines
+
+### Pattern 5: Modify Existing Skill with PR
+
+```markdown
+1. Read policies and target skill file
+2. Apply modifications to specific section
+3. Validate original skill (4 checks)
+4. Validate modified skill (4 checks)
+5. Compare validation results
+6. Create feature branch
+7. Commit modified skill to branch
+8. Create pull request with validation comparison
+```
    - Tool: read_policy_file
    - Parameters:
      - path: "rules/security-guidelines.md"
@@ -265,17 +407,19 @@ Generates a new REST API endpoint with proper structure, validation, and error h
      - message: "chore: register new backend API endpoint skill"
 
 ## Expected Output
+
 - New API endpoint file created
 - Skill documentation generated
 - Skill metadata updated
 - All changes committed to repository
 
 ## Validation
+
 - Code follows coding standards
 - Security guidelines applied
 - No duplicate skills created
 - Metadata correctly updated
-```
+````
 
 ---
 
@@ -315,11 +459,13 @@ Always provide clear, descriptive commit messages:
 
 ```markdown
 ✅ Good:
+
 - "feat: add backend-user-authentication skill"
 - "fix: correct validation logic in frontend-form-handler"
 - "docs: update skill usage examples with MCP tools"
 
 ❌ Bad:
+
 - "update"
 - "fix stuff"
 - "new skill"
@@ -411,6 +557,7 @@ Include error handling in your skill instructions:
 
 ```markdown
 If read_skill_file returns "File not found":
+
 - Verify the path is correct
 - Check if file exists in repository
 - Consider creating the file if appropriate
@@ -420,6 +567,7 @@ If read_skill_file returns "File not found":
 
 ```markdown
 If any tool returns "Authentication failed":
+
 - Verify GitHub token is valid
 - Check token has required permissions
 - Ensure token hasn't expired
@@ -429,6 +577,7 @@ If any tool returns "Authentication failed":
 
 ```markdown
 If "API rate limit exceeded":
+
 - Wait for rate limit reset
 - Consider caching frequently accessed files
 - Optimize tool usage to reduce API calls
@@ -461,6 +610,7 @@ If "API rate limit exceeded":
 ## Support
 
 For issues or questions:
+
 1. Check the troubleshooting section in SETUP.md
 2. Review the main README.md
 3. Verify your GitHub token and permissions

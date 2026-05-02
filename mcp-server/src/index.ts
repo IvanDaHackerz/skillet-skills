@@ -93,6 +93,20 @@ const UpdateSkillMetadataSchema = z.object({
   message: z.string().describe("Commit message"),
 });
 
+const CreatePullRequestSchema = z.object({
+  title: z.string().describe("Pull request title"),
+  body: z.string().describe("Pull request description/body"),
+  head: z.string().describe("Source branch name"),
+  base: z.string().optional().describe("Target branch name (default: main)"),
+  repo: z.string().optional().describe("Repository name (default: SKILLS_REPO)"),
+});
+
+const CreateBranchSchema = z.object({
+  branch: z.string().describe("New branch name"),
+  from_branch: z.string().optional().describe("Source branch to create from (default: main)"),
+  repo: z.string().optional().describe("Repository name (default: SKILLS_REPO)"),
+});
+
 // Helper function to get file content from GitHub
 async function getFileContent(
   owner: string,
@@ -300,6 +314,58 @@ const tools: Tool[] = [
       required: ["content", "message"],
     },
   },
+  {
+    name: "create_pull_request",
+    description: "Create a pull request in a GitHub repository",
+    inputSchema: {
+      type: "object",
+      properties: {
+        title: {
+          type: "string",
+          description: "Pull request title",
+        },
+        body: {
+          type: "string",
+          description: "Pull request description/body",
+        },
+        head: {
+          type: "string",
+          description: "Source branch name",
+        },
+        base: {
+          type: "string",
+          description: "Target branch name (default: main)",
+        },
+        repo: {
+          type: "string",
+          description: "Repository name (default: SKILLS_REPO)",
+        },
+      },
+      required: ["title", "body", "head"],
+    },
+  },
+  {
+    name: "create_branch",
+    description: "Create a new branch in a GitHub repository",
+    inputSchema: {
+      type: "object",
+      properties: {
+        branch: {
+          type: "string",
+          description: "New branch name",
+        },
+        from_branch: {
+          type: "string",
+          description: "Source branch to create from (default: main)",
+        },
+        repo: {
+          type: "string",
+          description: "Repository name (default: SKILLS_REPO)",
+        },
+      },
+      required: ["branch"],
+    },
+  },
 ];
 
 // Handle list tools request
@@ -394,6 +460,60 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: "text",
               text: `Successfully updated ${METADATA_PATH}`,
+            },
+          ],
+        };
+      }
+
+      case "create_pull_request": {
+        const { title, body, head, base = DEFAULT_BRANCH, repo = SKILLS_REPO } = CreatePullRequestSchema.parse(args);
+        const pr = await octokit.pulls.create({
+          owner: GITHUB_OWNER,
+          repo,
+          title,
+          body,
+          head,
+          base,
+        });
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({
+                url: pr.data.html_url,
+                number: pr.data.number,
+                state: pr.data.state,
+              }, null, 2),
+            },
+          ],
+        };
+      }
+
+      case "create_branch": {
+        const { branch, from_branch = DEFAULT_BRANCH, repo = SKILLS_REPO } = CreateBranchSchema.parse(args);
+        
+        // Get the SHA of the source branch
+        const refResponse = await octokit.git.getRef({
+          owner: GITHUB_OWNER,
+          repo,
+          ref: `heads/${from_branch}`,
+        });
+        
+        const sha = refResponse.data.object.sha;
+        
+        // Create the new branch
+        await octokit.git.createRef({
+          owner: GITHUB_OWNER,
+          repo,
+          ref: `refs/heads/${branch}`,
+          sha,
+        });
+        
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Successfully created branch '${branch}' from '${from_branch}' in ${repo}`,
             },
           ],
         };
