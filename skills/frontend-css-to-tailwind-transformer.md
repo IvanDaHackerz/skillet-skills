@@ -55,37 +55,45 @@ After that, present the mapping document to the user and ask them to review the 
 Use the `ask_followup_question` tool to confirm they approve the mapping or want adjustments.
 If adjustments are needed, use the `create_temporary_file` tool with `action` set to `get_content` to retrieve the current mapping, then update it with `create_editor` again.
 
-### Step 5: Transform CSS to Tailwind Classes
+### Step 5: Validate CSS Custom Properties
 
-Next, based on the approved mapping, prepare the Tailwind class replacements.
+Next, before transforming, use the `search_files` tool to scan the CSS file for CSS custom properties (variables).
+Look for patterns like `--variable-name` in property declarations and `var(--variable-name)` in usage.
+If custom properties are found, warn the user that these require manual handling in Tailwind.
+Suggest either: (1) adding them to `tailwind.config.js` theme, or (2) preserving them in a separate custom CSS file.
+Document all found custom properties in the mapping file for user review.
+
+### Step 6: Transform CSS to Tailwind Classes
+
+Then, based on the approved mapping and custom property decisions, prepare the Tailwind class replacements.
 For `inline` format, create a list of class name replacements for HTML/JSX files.
 For `component` format, create new CSS using Tailwind's `@apply` directive for reusable components.
 
-### Step 6: Update HTML/JSX Files (Inline Format)
+### Step 7: Update HTML/JSX Files (Inline Format)
 
 If `output_format` is `inline`, use the `read_file` tool to read each target file.
 Then use the `apply_diff` tool to replace old CSS class names with Tailwind utility classes.
 Maintain proper spacing and formatting, and group related utilities logically (layout, spacing, colors, typography).
 
-### Step 7: Create Component CSS File (Component Format)
+### Step 8: Create Component CSS File (Component Format)
 
 If `output_format` is `component`, use the `write_to_file` tool to create a new CSS file.
 Use Tailwind's `@apply` directive to compose utility classes into semantic component classes.
 Include the `@layer components` directive to ensure proper CSS cascade order.
 
-### Step 8: Handle Custom CSS Preservation
+### Step 9: Handle Custom CSS Preservation
 
 Then, if `preserve_custom` is `true`, use the `write_to_file` tool to create a `custom.css` file.
 Include any CSS that cannot be converted to Tailwind (complex animations, unique gradients, etc.).
 Add comments explaining why each rule is preserved and reference the original CSS file.
 
-### Step 9: Update Tailwind Configuration
+### Step 10: Update Tailwind Configuration
 
 Next, use the `read_file` tool to read `tailwind.config.js`.
 Check if custom colors, spacing, or other design tokens need to be added to match the original CSS.
 If needed, use the `apply_diff` tool to extend the Tailwind theme with custom values.
 
-### Step 10: Clean Up and Verify
+### Step 11: Clean Up and Verify
 
 Finally, use the `create_temporary_file` tool with `action` set to `cleanup` to remove the mapping document.
 Present a summary of changes: files modified, classes converted, and any custom CSS preserved.
