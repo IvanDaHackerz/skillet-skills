@@ -38,10 +38,7 @@ coverage/
 *.temp
 .cache/
 
-# Bob sessions (keep folder, ignore contents initially)
-bob_sessions/*.md
-bob_sessions/*.png
-bob_sessions/*.jpg
-!bob_sessions/.gitkeep
+# Bob sessions - COMMIT EVERYTHING (required for hackathon judging)
+!bob_sessions/
 
 # Made with Bob
