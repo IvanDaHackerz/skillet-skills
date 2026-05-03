@@ -3,35 +3,187 @@
     {
       "filename": "backend-user.md",
       "path": "skills/backend-user.md",
+      "slug": "backend-user",
+      "name": "Backend User Management",
+      "description": "Implements user authentication and management with JSON data structures and constants. Use this when you need to set up user-related API endpoints with proper data handling.",
       "category": "backend",
+      "roles": ["backend", "fullstack"],
+      "tags": ["user", "json", "const", "authentication", "api"],
+      "version": "1.0.0",
       "addedAt": "2026-05-02T20:55:05.361Z",
-      "source": "factory"
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/backend-user.md",
+        "branch": "main"
+      },
+      "tier": "junior",
+      "rating": 0,
+      "installCount": 0
     },
     {
       "filename": "frontend-docker.md",
       "path": "skills/frontend-docker.md",
+      "slug": "frontend-docker",
+      "name": "Frontend Docker Deployment",
+      "description": "Sets up Docker containerization for frontend applications with deployment configurations. Use this when you need to containerize and deploy frontend projects.",
       "category": "frontend",
+      "roles": ["frontend", "fullstack", "devops"],
+      "tags": ["docker", "deployment", "containerization", "frontend"],
+      "version": "1.0.0",
       "addedAt": "2026-05-02T22:04:34.426Z",
-      "source": "factory"
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/frontend-docker.md",
+        "branch": "main"
+      },
+      "tier": "mid",
+      "rating": 0,
+      "installCount": 0
     },
     {
       "filename": "frontend-trend.md",
       "path": "skills/frontend-trend.md",
+      "slug": "frontend-trend",
+      "name": "Frontend Trend Analysis and Implementation",
+      "description": "Analyzes and implements current frontend development trends and best practices for React dashboards. Use this when you need to modernize frontend code or adopt new design patterns.",
       "category": "frontend",
+      "roles": ["frontend", "fullstack"],
+      "tags": ["trends", "best-practices", "modernization", "react", "dashboard", "color-scheme"],
+      "version": "1.0.0",
       "addedAt": "2026-05-02T22:06:15.712Z",
-      "source": "factory"
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/frontend-trend.md",
+        "branch": "main"
+      },
+      "tier": "mid",
+      "rating": 0,
+      "installCount": 0
+    },
+    {
+      "filename": "frontend-css-to-tailwind-transformer.md",
+      "path": "skills/frontend-css-to-tailwind-transformer.md",
+      "slug": "frontend-css-to-tailwind-transformer",
+      "name": "CSS to Tailwind Transformer",
+      "description": "Transforms traditional CSS styling into Tailwind CSS utility classes while preserving design intent and responsiveness. Use this when migrating existing CSS to Tailwind.",
+      "category": "frontend",
+      "roles": ["frontend", "fullstack"],
+      "tags": ["css", "tailwind", "transformation", "migration", "utility-classes"],
+      "version": "1.1.0",
+      "addedAt": "2026-05-02T21:30:00.000Z",
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/frontend-css-to-tailwind-transformer.md",
+        "branch": "main"
+      },
+      "tier": "mid",
+      "rating": 0,
+      "installCount": 0
+    },
+    {
+      "filename": "frontend-local-environment-reset.md",
+      "path": "skills/frontend-local-environment-reset.md",
+      "slug": "frontend-local-environment-reset",
+      "name": "Local Environment Reset",
+      "description": "Fixes environment desynchronization issues in frontend projects by performing complete cleanup and reinstallation. Use this when experiencing build errors or module resolution issues.",
+      "category": "frontend",
+      "roles": ["frontend", "fullstack"],
+      "tags": ["environment", "reset", "cleanup", "dependencies", "troubleshooting"],
+      "version": "1.0.0",
+      "addedAt": "2026-05-02T21:45:00.000Z",
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/frontend-local-environment-reset.md",
+        "branch": "main"
+      },
+      "tier": "junior",
+      "rating": 0,
+      "installCount": 0
+    },
+    {
+      "filename": "shared-skill-generator.md",
+      "path": "skills/shared-skill-generator.md",
+      "slug": "shared-skill-generator",
+      "name": "Skill Generator",
+      "description": "Generates production-ready, reusable skills for Bob that follow company standards. Use this when you need to create a new skill that developers can use to automate common tasks.",
+      "category": "shared",
+      "roles": ["backend", "frontend", "fullstack", "devops", "qa"],
+      "tags": ["skill", "generator", "automation", "standards", "validation"],
+      "version": "1.0.0",
+      "addedAt": "2026-05-02T22:15:00.000Z",
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/shared-skill-generator.md",
+        "branch": "main"
+      },
+      "tier": "senior",
+      "rating": 0,
+      "installCount": 0
+    },
+    {
+      "filename": "shared-skill-modification-manager.md",
+      "path": "skills/shared-skill-modification-manager.md",
+      "slug": "shared-skill-modification-manager",
+      "name": "Skill Modification Manager",
+      "description": "Manages modifications to existing skills with automatic validation and pull request creation. Use this when you need to modify an existing skill with proper approval workflow.",
+      "category": "shared",
+      "roles": ["backend", "frontend", "fullstack", "devops", "qa"],
+      "tags": ["skill", "modification", "validation", "pull-request", "workflow"],
+      "version": "1.0.0",
+      "addedAt": "2026-05-02T22:20:00.000Z",
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/shared-skill-modification-manager.md",
+        "branch": "main"
+      },
+      "tier": "senior",
+      "rating": 0,
+      "installCount": 0
+    },
+    {
+      "filename": "skill-impact-analysis.md",
+      "path": "skills/skill-impact-analysis.md",
+      "slug": "skill-impact-analysis",
+      "name": "Skill Impact Analysis",
+      "description": "Analyzes the impact of updating or removing an existing skill by scanning for dependencies. Use this before modifying or deprecating a skill to understand affected components.",
+      "category": "shared",
+      "roles": ["backend", "frontend", "fullstack", "devops", "qa"],
+      "tags": ["skill", "analysis", "impact", "dependencies", "workflow"],
+      "version": "1.0.0",
+      "addedAt": "2026-05-02T22:25:00.000Z",
+      "source": {
+        "type": "github",
+        "repo": "IvanDaHackerz/skillet-skills",
+        "path": "skills/skill-impact-analysis.md",
+        "branch": "main"
+      },
+      "tier": "mid",
+      "rating": 0,
+      "installCount": 0
     }
   ],
-  "lastUpdated": "2026-05-02T22:06:15.712Z",
+  "lastUpdated": "2026-05-03T04:00:00.000Z",
   "version": "1.0.0",
   "stats": {
-    "totalSkills": 3,
+    "totalSkills": 8,
     "byCategory": {
       "backend": 1,
-      "frontend": 2,
+      "frontend": 4,
       "devops": 0,
       "qa": 0,
-      "shared": 0
+      "shared": 3
+    },
+    "byTier": {
+      "junior": 2,
+      "mid": 4,
+      "senior": 2
     }
   }
 }
