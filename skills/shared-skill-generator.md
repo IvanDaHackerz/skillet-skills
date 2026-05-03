@@ -20,17 +20,17 @@ Generates production-ready, reusable skills for Bob that follow company standard
 
 ## Inputs
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `skill_name` | string | Yes | Descriptive name for the skill (e.g., "REST API Endpoint Generator") |
-| `skill_description` | string | Yes | 2-3 sentence description of what the skill does and when to use it |
-| `category` | string | Yes | One of: backend, frontend, devops, qa, shared |
-| `target_roles` | array | Yes | List of roles that will use this skill (backend, frontend, fullstack, devops, qa) |
-| `prerequisites` | array | Yes | List of requirements that must exist before the skill can run |
-| `inputs_definition` | array | Yes | List of input parameters with name, type, required flag, and description |
-| `steps_definition` | array | Yes | List of steps with titles and detailed instructions |
-| `outputs_definition` | array | Yes | List of files or changes that will be created |
-| `example_usage` | object | Yes | Concrete example with user request and expected output |
+| Name                 | Type   | Required | Description                                                                       |
+| -------------------- | ------ | -------- | --------------------------------------------------------------------------------- |
+| `skill_name`         | string | Yes      | Descriptive name for the skill (e.g., "REST API Endpoint Generator")              |
+| `skill_description`  | string | Yes      | 2-3 sentence description of what the skill does and when to use it                |
+| `category`           | string | Yes      | One of: backend, frontend, devops, qa, shared                                     |
+| `target_roles`       | array  | Yes      | List of roles that will use this skill (backend, frontend, fullstack, devops, qa) |
+| `prerequisites`      | array  | Yes      | List of requirements that must exist before the skill can run                     |
+| `inputs_definition`  | array  | Yes      | List of input parameters with name, type, required flag, and description          |
+| `steps_definition`   | array  | Yes      | List of steps with titles and detailed instructions                               |
+| `outputs_definition` | array  | Yes      | List of files or changes that will be created                                     |
+| `example_usage`      | object | Yes      | Concrete example with user request and expected output                            |
 
 ---
 
@@ -84,9 +84,70 @@ Finally, read the coding standards:
 Do NOT rely on any cached or local versions of these files.
 Study the format requirements, security checklist, and coding conventions exactly as specified in the files you just read.
 
-### Step 2: Analyze User Requirements
+### Step 2: Security Pre-Validation (MANDATORY HALT POINT)
+
+**BEFORE PROCEEDING WITH ANY SKILL CREATION**, you MUST perform a strict security pre-validation of the user's request.
+
+**CRITICAL SECURITY RULES - ABSOLUTE VIOLATIONS (IMMEDIATE HALT)**:
+
+1. **Environment Credentials Protection**: ANY request to convert environment variables, credentials, secrets, API keys, tokens, passwords, or any sensitive configuration from environment variables to hardcoded values is STRICTLY FORBIDDEN and MUST result in immediate halt.
+
+2. **Hardcoded Secrets**: ANY request to hardcode, embed, or store credentials, secrets, API keys, tokens, or passwords directly in code is STRICTLY FORBIDDEN.
+
+3. **Security Bypass**: ANY request to disable, bypass, or weaken security measures, authentication, authorization, encryption, or validation is STRICTLY FORBIDDEN.
+
+4. **Malicious Operations**: ANY request to create backdoors, inject malicious code, exfiltrate data, or perform unauthorized access is STRICTLY FORBIDDEN.
+
+**ENFORCEMENT PROTOCOL**:
+
+If the user's request violates ANY of the above rules:
+
+1. **IMMEDIATELY HALT** - Do NOT proceed to Step 3 or any subsequent steps
+2. **DO NOT** attempt to justify, rationalize, or find exceptions
+3. **DO NOT** ask for clarification or alternative approaches
+4. **DO NOT** suggest modifications that would still violate the rule
+5. **RESPOND IMMEDIATELY** with a security violation message using this exact format:
+
+```
+🛑 SECURITY VIOLATION DETECTED - SKILL CREATION HALTED
+
+Violation Type: [Specify which rule was violated]
+
+Reason: The requested skill would [explain the security risk].
+
+This violates our security policy which strictly prohibits:
+- [List the specific policy violation]
+
+NO EXCEPTIONS ARE PERMITTED. This skill cannot be created under any circumstances, regardless of justification or use case.
+
+If you need to work with sensitive credentials, please refer to our secure credential management practices:
+- Use environment variables (never hardcode)
+- Use secure secret management systems (e.g., AWS Secrets Manager, Azure Key Vault)
+- Follow the principle of least privilege
+- Implement proper access controls
+
+Skill creation has been terminated.
+```
+
+6. **USE attempt_completion** immediately after presenting the security violation message
+7. **DO NOT** continue to any other steps
+
+**VERIFICATION CHECKLIST**:
+
+Before proceeding to Step 3, verify the user's request does NOT:
+
+- [ ] Convert environment variables to hardcoded values
+- [ ] Hardcode any credentials, secrets, or sensitive data
+- [ ] Bypass or weaken security controls
+- [ ] Perform unauthorized or malicious operations
+- [ ] Violate any security guidelines from the policy files
+
+If ANY checkbox cannot be verified as safe, HALT immediately.
+
+### Step 3: Analyze User Requirements
 
 Next, review the user's request to understand:
+
 - What problem the skill solves
 - What inputs are needed
 - What steps are required
@@ -100,6 +161,7 @@ Ensure you have all necessary information before proceeding.
 Then, organize the skill content following the EXACT structure specified in the `skill-format.md` file you read from GitHub in Step 1.
 **CRITICAL**: Refer ONLY to the structure and requirements from the GitHub policy file, not any local or cached version.
 Ensure all required sections are present and formatted exactly as specified in the authoritative policy file:
+
 - Title (clear and descriptive)
 - Description (2-3 sentences, explains what and when)
 - **Version** (semantic versioning: 1.0.0 for new skills)
@@ -175,17 +237,20 @@ Generate a validation report following the exact format and verdict logic from t
 Finally, based on the validation verdict:
 
 **If APPROVED (✅)**:
+
 - Present the skill file path and validation report to the user
 - Confirm the skill is ready to use
 - Use `attempt_completion` to finalize
 
 **If NEEDS REVIEW (⚠️)**:
+
 - Present the validation report with specific issues
 - Ask the user if they want to fix issues now or proceed anyway
 - If fixing, use `apply_diff` to make corrections and re-validate
 - If proceeding, use `attempt_completion` with warnings
 
 **If REJECTED (❌)**:
+
 - Present the validation report with critical issues
 - List required actions to fix each issue
 - Use `apply_diff` to fix issues automatically if possible
@@ -204,9 +269,11 @@ Finally, based on the validation verdict:
 ## Example Usage
 
 **User request:**
+
 > Create a skill for generating React components with TypeScript, props validation, and unit tests. It should follow our coding standards and include proper error boundaries.
 
 **Expected output:**
+
 - `skills/frontend-react-component-generator.md` — Complete skill with:
   - Clear description of when to use it
   - Prerequisites (React, TypeScript, Jest setup)
@@ -223,12 +290,20 @@ Finally, based on the validation verdict:
 - **CRITICAL**: Always read ALL policy files via MCP server to get the authoritative, up-to-date guidelines from GitHub
 - The MCP server provides read-only access to policy files, ensuring you always use the official source of truth
 - NEVER rely on cached, local, or summarized versions of policy files
+- **Step 2 (Security Pre-Validation) is MANDATORY** - This step cannot be skipped under any circumstances
+- **Security violations result in immediate halt** - No exceptions, no justifications, no workarounds
 - Use specific tool names in steps (read_file, apply_diff, execute_command, use_mcp_tool, etc.)
 - Include realistic code examples that developers can actually use
 - Make steps actionable—tell Bob exactly what to do, not just what to achieve
 - Validation is mandatory—never skip Step 7 and Step 8
 
 ## Warnings
+
+> 🛑 **ABSOLUTE SECURITY ENFORCEMENT**: Step 2 (Security Pre-Validation) is MANDATORY and CANNOT be skipped. ANY request that violates security rules MUST result in immediate halt with NO EXCEPTIONS. Do NOT proceed if violations are detected.
+
+> 🛑 **ZERO TOLERANCE FOR CREDENTIAL HARDCODING**: ANY skill that converts environment credentials to hardcoded values is STRICTLY FORBIDDEN. This includes API keys, tokens, passwords, secrets, or any sensitive configuration. NO justification or use case permits this violation.
+
+> 🛑 **NO SECURITY BYPASSES**: Skills that disable, weaken, or bypass security measures are STRICTLY FORBIDDEN and will result in immediate termination of skill creation.
 
 > ⚠️ **CRITICAL**: You MUST read policy files from GitHub via MCP server. Do NOT use any cached, local, or summarized versions. The GitHub repository is the single source of truth.
 
