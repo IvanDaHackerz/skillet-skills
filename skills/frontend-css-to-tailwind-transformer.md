@@ -2,26 +2,24 @@
 
 Transforms traditional CSS styling into Tailwind CSS utility classes while preserving design intent and responsiveness. Use this when migrating existing CSS to Tailwind, refactoring inline styles, or converting component stylesheets to utility-first approach. The transformation maintains visual consistency, follows Tailwind best practices, and provides intelligent handling of complex CSS patterns including animations, gradients, and custom properties.
 
-**Version:** 1.1.0
+**Version:** 1.1.2
 
 **Category:** frontend
 **Roles:** frontend, fullstack
 
 **Changes made:**
-- Added `hybrid` output format option for mixing component classes and inline utilities
-- Added `optimize_classes` parameter for automatic class deduplication
-- Added `generate_variants` parameter for automatic hover/focus/active state generation
-- Enhanced Step 1 with comprehensive CSS analysis and categorization
-- Improved Step 3 mapping document with 5 detailed sections (direct conversions, complex patterns, preserved CSS, theme extensions, optimization opportunities)
-- Enhanced Step 6 with better CSS custom properties handling and specific recommendations
-- Added new Step 11 for optimization and deduplication of classes
-- Added new Step 12 for comprehensive documentation generation (TRANSFORMATION_SUMMARY.md)
-- Expanded Step 10 with detailed Tailwind configuration examples
-- Added Step 8 with proper CSS file structure using @layer directives
-- Enhanced examples with actual code snippets showing expected output
-- Expanded Notes section with mobile-first approach, class ordering, accessibility, and dark mode considerations
-- Added warnings about long class strings and purge configuration
-- Added more related skills including dark mode implementation and responsive design converter
+
+- Removed `TRANSFORMATION_SUMMARY.md` from Outputs section (documentation step already removed in v1.1.1)
+- Previous changes (v1.1.0):
+  - Added `hybrid` output format option for mixing component classes and inline utilities
+  - Added `optimize_classes` parameter for automatic class deduplication
+  - Added `generate_variants` parameter for automatic hover/focus/active state generation
+  - Enhanced Step 1 with comprehensive CSS analysis and categorization
+  - Improved Step 3 mapping document with 5 detailed sections
+  - Enhanced Step 6 with better CSS custom properties handling
+  - Added Step 11 for optimization and deduplication of classes
+  - Expanded Step 10 with detailed Tailwind configuration examples
+  - Added Step 8 with proper CSS file structure using @layer directives
 
 ---
 
@@ -36,15 +34,15 @@ Transforms traditional CSS styling into Tailwind CSS utility classes while prese
 
 ## Inputs
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `css_file_path` | string | Yes | Path to the CSS file to transform (e.g., `src/styles/components.css`) |
-| `target_files` | array | No | List of HTML/JSX files that use these styles (for context) |
-| `preserve_custom` | boolean | No | Whether to preserve custom CSS that can't be converted (default: `true`) |
-| `responsive_breakpoints` | array | No | Breakpoints to consider: `sm`, `md`, `lg`, `xl`, `2xl` (default: all) |
-| `output_format` | string | No | Output format: `inline` (utility classes), `component` (Tailwind @apply), or `hybrid` (mix of both) |
-| `optimize_classes` | boolean | No | Whether to optimize and deduplicate utility classes (default: `true`) |
-| `generate_variants` | boolean | No | Whether to generate hover, focus, active variants automatically (default: `true`) |
+| Name                     | Type    | Required | Description                                                                                         |
+| ------------------------ | ------- | -------- | --------------------------------------------------------------------------------------------------- |
+| `css_file_path`          | string  | Yes      | Path to the CSS file to transform (e.g., `src/styles/components.css`)                               |
+| `target_files`           | array   | No       | List of HTML/JSX files that use these styles (for context)                                          |
+| `preserve_custom`        | boolean | No       | Whether to preserve custom CSS that can't be converted (default: `true`)                            |
+| `responsive_breakpoints` | array   | No       | Breakpoints to consider: `sm`, `md`, `lg`, `xl`, `2xl` (default: all)                               |
+| `output_format`          | string  | No       | Output format: `inline` (utility classes), `component` (Tailwind @apply), or `hybrid` (mix of both) |
+| `optimize_classes`       | boolean | No       | Whether to optimize and deduplicate utility classes (default: `true`)                               |
+| `generate_variants`      | boolean | No       | Whether to generate hover, focus, active variants automatically (default: `true`)                   |
 
 ---
 
@@ -54,6 +52,7 @@ Transforms traditional CSS styling into Tailwind CSS utility classes while prese
 
 First, use the `read_file` tool to read the CSS file at the path provided by the user.
 Analyze and categorize the CSS content:
+
 - **Selectors**: Class names, IDs, element selectors, and their specificity
 - **Properties**: Layout (flexbox, grid), spacing, colors, typography, effects
 - **Media queries**: Responsive breakpoints and their rules
@@ -82,6 +81,7 @@ Structure the mapping with these sections:
 5. **Optimization Opportunities**: Repeated patterns that could become components
 
 For each mapping, include:
+
 - Original CSS selector and properties
 - Equivalent Tailwind classes with explanations
 - Responsive variants if applicable
@@ -100,6 +100,7 @@ If adjustments are needed, use the `create_temporary_file` tool with `action` se
 Next, based on the approved mapping, prepare the Tailwind class replacements:
 
 **For `inline` format:**
+
 - Create optimized utility class strings, grouping related utilities logically
 - Order classes: layout → display → positioning → spacing → sizing → colors → typography → effects → transitions
 - Use responsive prefixes (`sm:`, `md:`, etc.) for media queries
@@ -107,12 +108,14 @@ Next, based on the approved mapping, prepare the Tailwind class replacements:
 - Use arbitrary values `[value]` for one-off custom values
 
 **For `component` format:**
+
 - Create semantic component classes using `@apply` directive
 - Wrap in `@layer components` for proper cascade
 - Group related utilities within each component
 - Add comments documenting the component's purpose
 
 **For `hybrid` format:**
+
 - Use `@apply` for frequently repeated utility combinations
 - Use inline utilities for one-off or variant-specific styles
 - Balance between reusability and flexibility
@@ -121,12 +124,14 @@ Next, based on the approved mapping, prepare the Tailwind class replacements:
 
 First, scan the CSS file content from Step 1 for CSS custom properties (variables starting with `--`).
 If custom properties are found, analyze their usage patterns:
+
 - **Theme values**: Colors, spacing, fonts that should be in `tailwind.config.js`
 - **Component-specific**: Local variables that should remain in custom CSS
 - **Dynamic values**: Runtime-changeable values that need CSS variables
 
 Use the `ask_followup_question` tool to present options:
 "CSS custom properties detected: [list property names with their values]. Recommended approach:
+
 1. Add theme values to tailwind.config.js (colors, spacing, fonts)
 2. Keep component-specific variables in custom CSS
 3. Convert static values to Tailwind utilities
@@ -164,7 +169,7 @@ Structure the file properly:
     @apply hover:bg-blue-600 focus:ring-2 focus:ring-blue-300;
     @apply transition-colors duration-200;
   }
-  
+
   /* Add component documentation */
   .card {
     @apply bg-white rounded-xl shadow-lg p-6;
@@ -195,22 +200,42 @@ Organize preserved CSS into logical sections:
 /* Complex Animations */
 @keyframes slideIn {
   /* Preserved: Complex keyframe animation not supported by Tailwind */
-  from { transform: translateX(-100%) rotate(-10deg); opacity: 0; }
-  to { transform: translateX(0) rotate(0); opacity: 1; }
+  from {
+    transform: translateX(-100%) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotate(0);
+    opacity: 1;
+  }
 }
 
 /* Complex Gradients */
 .gradient-mesh {
   /* Preserved: Multi-stop radial gradient with complex positioning */
-  background: radial-gradient(circle at 20% 50%, rgba(120,119,198,0.3), transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(255,119,198,0.3), transparent 50%);
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(120, 119, 198, 0.3),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 119, 198, 0.3),
+      transparent 50%
+    );
 }
 
 /* Browser-Specific Hacks */
 .scrollbar-custom {
   /* Preserved: Webkit-specific scrollbar styling */
-  &::-webkit-scrollbar { width: 8px; }
-  &::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
 }
 ```
 
@@ -237,27 +262,27 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          50: '#f0f9ff',
-          500: '#0ea5e9',
-          900: '#0c4a6e',
+          50: "#f0f9ff",
+          500: "#0ea5e9",
+          900: "#0c4a6e",
         },
       },
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
+        18: "4.5rem",
+        88: "22rem",
       },
       animation: {
-        'slide-in': 'slideIn 0.3s ease-out',
+        "slide-in": "slideIn 0.3s ease-out",
       },
       keyframes: {
         slideIn: {
-          '0%': { transform: 'translateX(-100%)', opacity: '0' },
-          '100%': { transform: 'translateX(0)', opacity: '1' },
+          "0%": { transform: "translateX(-100%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
         },
       },
     },
   },
-}
+};
 ```
 
 Add comments explaining the purpose of each custom value.
@@ -273,65 +298,6 @@ If `optimize_classes` is `true`, analyze the transformed files for optimization 
 
 Use the `apply_diff` tool to apply optimizations to the files.
 
-### Step 12: Generate Comprehensive Documentation
-
-Use the `write_to_file` tool to create a `TRANSFORMATION_SUMMARY.md` file:
-
-```markdown
-# CSS to Tailwind Transformation Summary
-
-## Overview
-- **Original CSS File**: [path]
-- **Transformation Date**: [date]
-- **Output Format**: [inline/component/hybrid]
-
-## Statistics
-- Total CSS rules analyzed: [count]
-- Rules converted to Tailwind: [count]
-- Custom CSS preserved: [count]
-- Files modified: [count]
-
-## Changes by File
-### [filename]
-- Classes converted: [count]
-- New utility classes: [list]
-- Preserved custom CSS: [list]
-
-## Theme Extensions
-- Colors added: [list]
-- Spacing values: [list]
-- Custom animations: [list]
-
-## Manual Review Required
-- [ ] CSS variables in [file]: [description]
-- [ ] Complex selectors in [file]: [description]
-- [ ] Browser-specific hacks: [description]
-
-## Testing Checklist
-- [ ] Visual regression testing
-- [ ] Responsive breakpoint testing
-- [ ] Interactive state testing (hover, focus, active)
-- [ ] Animation and transition testing
-- [ ] Cross-browser compatibility
-
-## Next Steps
-1. Run `npm run build` to compile Tailwind
-2. Test all affected components visually
-3. Review and resolve manual review items
-4. Update component documentation
-```
-
-### Step 13: Clean Up and Final Verification
-
-Use the `create_temporary_file` tool with `action` set to `cleanup` to remove the mapping document.
-Present a concise summary highlighting:
-- Files successfully transformed
-- Classes converted vs. preserved
-- Theme extensions added
-- Any manual review items requiring attention
-
-Recommend running the build process and visual testing to verify the transformation.
-
 ---
 
 ## Outputs
@@ -340,7 +306,6 @@ Recommend running the build process and visual testing to verify the transformat
 - `components.css` with `@apply` directives and documentation (if `component` or `hybrid` format)
 - `custom.css` with preserved custom styles and detailed comments (if `preserve_custom` is `true`)
 - Updated `tailwind.config.js` with custom theme extensions and comments
-- `TRANSFORMATION_SUMMARY.md` with comprehensive transformation documentation
 - Optimization report showing deduplicated classes and extracted components
 
 ---
@@ -350,9 +315,11 @@ Recommend running the build process and visual testing to verify the transformat
 ### Example 1: Simple Button Transformation
 
 **User request:**
+
 > Transform the CSS in `src/styles/button.css` to Tailwind classes. The styles are used in `src/components/Button.jsx`. Use inline format and preserve any custom animations.
 
 **Expected output:**
+
 - `src/components/Button.jsx` — Updated with optimized Tailwind utilities:
   ```jsx
   <button className="
@@ -367,14 +334,15 @@ Recommend running the build process and visual testing to verify the transformat
   ```
 - `src/styles/custom.css` — Contains preserved custom button animations with documentation
 - `tailwind.config.js` — Extended with custom blue color shades and animation timings
-- `TRANSFORMATION_SUMMARY.md` — Detailed report showing 15 CSS rules converted, 2 animations preserved
 
 ### Example 2: Complex Component with Hybrid Approach
 
 **User request:**
+
 > Convert `src/styles/card.css` to Tailwind. The card has multiple variants and is used across 5 components. Use hybrid format to balance reusability and flexibility.
 
 **Expected output:**
+
 - `src/styles/components.css` — New file with component classes:
   ```css
   @layer components {

@@ -126,6 +126,7 @@ Preserve all other sections of the skill file unchanged.
 Verify that the modification follows the imperative instruction style required by skill-format.md.
 
 **CRITICAL**: After applying the modification, increment the version number following semantic versioning:
+
 - MAJOR version (X.0.0) for breaking changes or complete rewrites
 - MINOR version (x.Y.0) for new features or significant additions
 - PATCH version (x.y.Z) for bug fixes or minor improvements
@@ -251,7 +252,49 @@ Then, use the `use_mcp_tool` tool to create the new branch:
 
 Verify the branch was created successfully before proceeding.
 
-### Step 8: Commit Modified Skill to New Branch
+### Step 8: Update Metadata in New Branch
+
+Before committing the modified skill, update the skill-index.json metadata file in the new branch.
+
+First, use the `use_mcp_tool` tool to read the current metadata:
+
+```xml
+<use_mcp_tool>
+<server_name>skillet-github</server_name>
+<tool_name>read_skill_file</tool_name>
+<arguments>
+{
+  "path": "metadata/skill-index.json"
+}
+</arguments>
+</use_mcp_tool>
+```
+
+Then, parse the JSON and locate the entry for the skill being modified.
+Update the following fields in the skill's metadata entry:
+
+- `version`: Increment to match the new version in the skill file
+- `lastModified`: Set to current ISO 8601 timestamp
+- `description`: Update if the modification changed the skill's purpose
+
+Use the `use_mcp_tool` tool to update the metadata file in the new branch:
+
+```xml
+<use_mcp_tool>
+<server_name>skillet-github</server_name>
+<tool_name>update_skill_metadata</tool_name>
+<arguments>
+{
+  "content": "[COMPLETE UPDATED skill-index.json CONTENT]",
+  "message": "Update metadata for modified skill: [Skill Name] v[New Version]"
+}
+</arguments>
+</use_mcp_tool>
+```
+
+Verify the metadata was updated successfully in the new branch.
+
+### Step 9: Commit Modified Skill to New Branch
 
 Next, use the `use_mcp_tool` tool to write the modified skill file to the new branch:
 
@@ -273,7 +316,43 @@ Next, use the `use_mcp_tool` tool to write the modified skill file to the new br
 Ensure the commit message is descriptive and includes validation summary.
 Verify the file was committed successfully to the new branch.
 
-### Step 9: Create Pull Request with Validation Comparison
+### Step 10: Update Local Workspace Metadata
+
+After committing to the new branch, update the metadata in the local workspace as well.
+
+Use the `read_file` tool to read the local metadata file:
+
+```xml
+<read_file>
+<args>
+  <file>
+    <path>metadata/skill-index.json</path>
+  </file>
+</args>
+</read_file>
+```
+
+Parse the JSON and update the same fields as in Step 8:
+
+- `version`: Increment to match the new version
+- `lastModified`: Set to current ISO 8601 timestamp
+- `description`: Update if changed
+
+Use the `write_to_file` tool to update the local metadata:
+
+```xml
+<write_to_file>
+<path>metadata/skill-index.json</path>
+<content>
+[COMPLETE UPDATED skill-index.json CONTENT]
+</content>
+<line_count>[total number of lines]</line_count>
+</write_to_file>
+```
+
+Verify the local metadata was updated successfully.
+
+### Step 11: Create Pull Request with Validation Comparison
 
 Finally, use the `use_mcp_tool` tool to create a pull request:
 
@@ -309,6 +388,7 @@ Use `attempt_completion` to present the PR URL and validation summary to the use
 ## Outputs
 
 - Modified skill file committed to new branch in skillet-skills repository
+- Updated metadata (skill-index.json) in both new branch and local workspace
 - Validation comparison report (original vs modified)
 - GitHub Pull Request with validation results as description
 - PR URL for senior dev review
@@ -330,13 +410,16 @@ Use `attempt_completion` to present the PR URL and validation summary to the use
 5. Validate modified skill: 90/100 compliance, Security PASSED
 6. Generate comparison showing +5 point improvement
 7. Create branch: `modify-skill/frontend-css-custom-props`
-8. Commit modified skill with validation summary
-9. Create PR with title: "Modify Frontend CSS Transformer: Add Custom Property Validation"
-10. PR includes full validation comparison and review checklist
+8. Update metadata in new branch (version, lastModified)
+9. Commit modified skill with validation summary
+10. Update local workspace metadata
+11. Create PR with title: "Modify Frontend CSS Transformer: Add Custom Property Validation"
+12. PR includes full validation comparison and review checklist
 
 **Expected output:**
 
 - Branch: `modify-skill/frontend-css-custom-props`
+- Metadata: Updated in both new branch and local workspace
 - PR URL: `https://github.com/IvanDaHackerz/skillet-skills/pull/123`
 - Validation: Original 85/100 → Modified 90/100 (Improved)
 - Status: ✅ APPROVED - Ready for senior dev review
