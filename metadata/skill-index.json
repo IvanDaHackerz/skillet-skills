@@ -50,7 +50,14 @@
       "description": "Analyzes and implements current frontend development trends and best practices for React dashboards. Use this when you need to modernize frontend code or adopt new design patterns.",
       "category": "frontend",
       "roles": ["frontend", "fullstack"],
-      "tags": ["trends", "best-practices", "modernization", "react", "dashboard", "color-scheme"],
+      "tags": [
+        "trends",
+        "best-practices",
+        "modernization",
+        "react",
+        "dashboard",
+        "color-scheme"
+      ],
       "version": "1.0.0",
       "addedAt": "2026-05-02T22:06:15.712Z",
       "source": {
@@ -71,8 +78,15 @@
       "description": "Transforms traditional CSS styling into Tailwind CSS utility classes while preserving design intent and responsiveness. Use this when migrating existing CSS to Tailwind.",
       "category": "frontend",
       "roles": ["frontend", "fullstack"],
-      "tags": ["css", "tailwind", "transformation", "migration", "utility-classes"],
-      "version": "1.1.0",
+      "tags": [
+        "css",
+        "tailwind",
+        "transformation",
+        "migration",
+        "utility-classes"
+      ],
+      "version": "1.1.2",
+      "lastModified": "2026-05-03T05:14:00.000Z",
       "addedAt": "2026-05-02T21:30:00.000Z",
       "source": {
         "type": "github",
@@ -92,7 +106,13 @@
       "description": "Fixes environment desynchronization issues in frontend projects by performing complete cleanup and reinstallation. Use this when experiencing build errors or module resolution issues.",
       "category": "frontend",
       "roles": ["frontend", "fullstack"],
-      "tags": ["environment", "reset", "cleanup", "dependencies", "troubleshooting"],
+      "tags": [
+        "environment",
+        "reset",
+        "cleanup",
+        "dependencies",
+        "troubleshooting"
+      ],
       "version": "1.0.0",
       "addedAt": "2026-05-02T21:45:00.000Z",
       "source": {
@@ -134,7 +154,13 @@
       "description": "Manages modifications to existing skills with automatic validation and pull request creation. Use this when you need to modify an existing skill with proper approval workflow.",
       "category": "shared",
       "roles": ["backend", "frontend", "fullstack", "devops", "qa"],
-      "tags": ["skill", "modification", "validation", "pull-request", "workflow"],
+      "tags": [
+        "skill",
+        "modification",
+        "validation",
+        "pull-request",
+        "workflow"
+      ],
       "version": "1.0.0",
       "addedAt": "2026-05-02T22:20:00.000Z",
       "source": {
@@ -169,7 +195,7 @@
       "installCount": 0
     }
   ],
-  "lastUpdated": "2026-05-03T04:00:00.000Z",
+  "lastUpdated": "2026-05-03T05:14:00.000Z",
   "version": "1.0.0",
   "stats": {
     "totalSkills": 8,
