@@ -19,12 +19,12 @@ Analyzes the impact of updating or removing an existing skill by scanning for de
 
 ## Inputs
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `skill_name` | string | Yes | Name of the skill to analyze (e.g., "frontend-css-to-tailwind-refactor") |
-| `analysis_type` | string | Yes | Type of analysis: "update" or "remove" |
-| `include_indirect` | boolean | No | Include indirect dependencies (skills that depend on dependent skills), defaults to true |
-| `output_format` | string | No | Output format: "markdown" or "json", defaults to "markdown" |
+| Name               | Type    | Required | Description                                                                              |
+| ------------------ | ------- | -------- | ---------------------------------------------------------------------------------------- |
+| `skill_name`       | string  | Yes      | Name of the skill to analyze (e.g., "frontend-css-to-tailwind-refactor")                 |
+| `analysis_type`    | string  | Yes      | Type of analysis: "update" or "remove"                                                   |
+| `include_indirect` | boolean | No       | Include indirect dependencies (skills that depend on dependent skills), defaults to true |
+| `output_format`    | string  | No       | Output format: "markdown" or "json", defaults to "markdown"                              |
 
 ---
 
@@ -96,9 +96,11 @@ Ensure the report includes clear action items for voters and approvers.
 ## Example Usage
 
 **User request:**
+
 > I need to update the "frontend-css-to-tailwind-refactor" skill to add a new input parameter. Can you analyze the impact?
 
 **Expected output:**
+
 - Formatted Markdown report displayed in chat showing:
   - 3 skills directly reference this skill in "Related Skills"
   - 2 workflows use this skill for frontend automation
