@@ -2,6 +2,8 @@
 
 Analyzes the impact of updating or removing an existing skill by scanning for dependencies across tiers, workflows, and related skills. Use this before modifying or deprecating a skill to understand which components will be affected. Generates a formatted impact report that surfaces all dependencies, usage patterns, and potential breaking changes for voters and approvers to review before any change is committed.
 
+**Version:** 1.0.0
+
 **Category:** shared
 **Roles:** backend, frontend, fullstack, devops, qa
 

@@ -2,6 +2,8 @@
 
 Fixes environment desynchronization issues in frontend projects by performing a complete cleanup and reinstallation of dependencies. Use this when experiencing build errors, module resolution issues, or inconsistent behavior after pulling changes. This skill removes cached files, clears the npm cache, and reinstalls all dependencies from scratch.
 
+**Version:** 1.0.0
+
 **Category:** frontend
 **Roles:** frontend, fullstack
 
