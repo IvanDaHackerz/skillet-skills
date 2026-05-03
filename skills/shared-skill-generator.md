@@ -2,6 +2,8 @@
 
 Generates production-ready, reusable skills for Bob that follow company standards for format, security, and coding practices. Use this when you need to create a new skill that developers can use to automate common development tasks. The generated skill will be validated automatically against all company policies and guidelines using the MCP server to access policy files.
 
+**Version:** 1.0.0
+
 **Category:** shared
 **Roles:** backend, frontend, fullstack, devops, qa
 
@@ -97,7 +99,22 @@ Ensure you have all necessary information before proceeding.
 
 Then, organize the skill content following the EXACT structure specified in the `skill-format.md` file you read from GitHub in Step 1.
 **CRITICAL**: Refer ONLY to the structure and requirements from the GitHub policy file, not any local or cached version.
-Ensure all required sections are present and formatted exactly as specified in the authoritative policy file.
+Ensure all required sections are present and formatted exactly as specified in the authoritative policy file:
+- Title (clear and descriptive)
+- Description (2-3 sentences, explains what and when)
+- **Version** (semantic versioning: 1.0.0 for new skills)
+- Category and Roles
+- Prerequisites (at least 2 items)
+- Inputs table (with name, type, required, description)
+- Steps (minimum 3, using imperative instructions)
+- Outputs (specific file paths or changes)
+- Example Usage (concrete and realistic)
+- Notes (optional tips)
+- Warnings (optional caveats)
+- Related Skills (optional)
+
+**IMPORTANT**: For new skills, always start with version **1.0.0** and do NOT include a "Changes made" section.
+When updating existing skills to a new version, always include a "Changes made" section immediately after the version line, listing all modifications.
 Ensure each step uses imperative language as defined in the policy file and specifies exact tools or commands.
 
 ### Step 4: Apply Security Guidelines
@@ -115,11 +132,14 @@ Then, ensure all code examples follow the `coding-standards.md` file you read fr
 Do NOT rely on any summarized or cached coding standards.
 Verify that generated code examples are production-ready and follow ALL conventions, patterns, and best practices specified in the GitHub file.
 
-### Step 6: Write the Skill File
+### Step 6: Write the Skill File with Version
 
 After that, use the `write_to_file` tool to create the skill file at `skills/{category}-{skill-name}.md`.
 Use kebab-case for the filename (e.g., `backend-rest-api-generator.md`).
 Include all sections with complete, meaningful content—no placeholders or TODOs.
+**Always include version 1.0.0 for new skills** in the format: `**Version:** 1.0.0`
+Place the version line immediately after the description and before Category/Roles.
+**For skill updates (version > 1.0.0)**, include a "Changes made" section immediately after the version line with a bulleted list of all modifications.
 Ensure the file is under 500 lines and uses UTF-8 encoding.
 
 ### Step 7: Read Validate Skill Instructions via MCP Server

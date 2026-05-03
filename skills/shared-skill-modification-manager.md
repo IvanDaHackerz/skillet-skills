@@ -2,6 +2,8 @@
 
 Manages modifications to existing skills in the skillet-skills repository with automatic validation, policy compliance checking, and pull request creation. Use this when a developer needs to modify an existing skill file with proper validation and approval workflow. The skill ensures all modifications comply with company policies before creating a pull request for senior dev review.
 
+**Version:** 1.0.0
+
 **Category:** shared
 **Roles:** backend, frontend, fullstack, devops, qa
 
@@ -112,8 +114,9 @@ Parse the markdown to locate section headers (e.g., "## Prerequisites", "### Ste
 Verify that the target section exists in the skill file.
 If the target section is not specified, ask the user using the `ask_followup_question` tool to clarify which section needs modification.
 Extract the current content of the target section for reference.
+Also extract the current version number from the skill file (look for `**Version:**` line).
 
-### Step 3: Apply User's Requested Modifications
+### Step 3: Apply User's Requested Modifications and Update Version
 
 Then, use the `apply_diff` tool to apply the modifications to the skill file.
 Create a SEARCH block with the exact current content of the target section.
@@ -121,6 +124,15 @@ Create a REPLACE block with the modified content incorporating the user's change
 Ensure the modification maintains proper markdown formatting and structure.
 Preserve all other sections of the skill file unchanged.
 Verify that the modification follows the imperative instruction style required by skill-format.md.
+
+**CRITICAL**: After applying the modification, increment the version number following semantic versioning:
+- MAJOR version (X.0.0) for breaking changes or complete rewrites
+- MINOR version (x.Y.0) for new features or significant additions
+- PATCH version (x.y.Z) for bug fixes or minor improvements
+
+Update the version line in the skill file and add a "Changes made" section immediately after the version line.
+The "Changes made" section must list all specific modifications made in this update as a bulleted list.
+If the skill doesn't have a version yet, add `**Version:** 1.0.1` and the "Changes made" section.
 
 ### Step 4: Validate Original Skill Against Policies
 
